@@ -7,7 +7,8 @@ God.watch do |w|
   w.group    = 'supercronic-workers'
   w.interval = 30.seconds
   # w.start = "bundle exec rake supercronic:work THREADS=5"
-  w.start = "supercronic -split-logs ./carom-crontab 1>./stdout.log"
+  w.start = "supercronic -split-logs ./carom-crontab 1>./log/cron.log"
+  # w.start = "supercronic -split-logs ./carom-crontab 1>./stdout.log"
   # w.log   = "/var/log/god/supercronic-worker-1.log" #That means logging on STDOUT
 
   # restart if memory gets too high
