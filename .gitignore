@@ -33,6 +33,8 @@ yarn-debug.log*
 
 /mysql_data
 
+carom-crontab
+
 git.info
 .generators
 .idea/
