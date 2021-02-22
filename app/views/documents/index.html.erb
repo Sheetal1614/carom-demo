@@ -1,0 +1,12 @@
+<h3>Available APIs</h3>
+
+<div class="row">
+  <% @apis_listing.each_with_index do |(api_list_label, api_list_curl_request), index| %>
+    <div class="col">
+      <div class="col alert alert-primary" role="alert">
+        <strong><%=(index+1).to_s.rjust(3,'0') %>. <%=api_list_label %></strong>
+        <pre class="mb-0"><%=api_list_curl_request.gsub('http://127.0.0.1:3000', "#{request.protocol}#{request.host_with_port}").gsub(/\w{8}-\w{4}-\w{4}-\w{4}-\w{12}/, '<access_token_in_UUID_format>') %></pre>
+      </div>
+    </div>
+  <% end %>
+</div>

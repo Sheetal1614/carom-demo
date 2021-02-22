@@ -1,0 +1,11 @@
+<div id='account_card_<%= account.id %>' class="col-sm-4 mb-4">
+  <div class="card border-secondary">
+    <div class="card-body">
+      <h5 class="card-title"><%= account.name %></h5>
+      <p class="card-text">
+        Created <%= time_ago_in_words(account.created_at) %> ago
+      </p>
+      <%= link_to('Details', account_path(account), class: "btn btn-sm btn-info") %>
+    </div>
+  </div>
+</div>

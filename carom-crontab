@@ -1,0 +1,2 @@
+*/5 * * * * * * echo "hello from Supercronic"
+*/5 * * * * * * bundle exec rake stats

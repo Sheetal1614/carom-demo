@@ -1,0 +1,47 @@
+<div class="poke_form poke_form_<%= poke.id %>">
+
+  <div class="alert alert-light border border-info" role="alert">
+
+    <%= form_with(model: poke, url: poke_path(poke), remote: true, method: :delete, class: 'form mb-3') do |form| %>
+      <div class="input-group input-group-sm">
+        <div class="input-group-prepend">
+          <span class="input-group-text"><strong><%= poke.id %></strong></span>
+          <span class="input-group-text">Doable &nbsp; <i class="fa <%= poke.doable? ? 'fa-check' : 'fa-times' %>" aria-hidden="true"></i></span>
+          <span class="input-group-text">Live &nbsp; <i class="fa <%= poke.live? ? 'fa-check' : 'fa-times' %>" aria-hidden="true"></i></span>
+          <span class="input-group-text">Validating uuid</span>
+        </div>
+        <input type="text" class="form-control bg-transparent" value="<%= poke.validating_uuid %>" readonly="readonly">
+        <div class="input-group-append">
+          <a href="javascript:void(0);" class="btn btn-outline-info latest_response"><%= pluralize(poke.latest_responses.size, 'Response') %></a>
+          <%= form.submit "Delete", class: "btn btn-outline-danger", data: {disable_with: 'Processing...', confirm: 'Are you sure?'} %>
+        </div>
+      </div>
+    <% end unless poke.new_record? %>
+
+    <%= form_with(model: poke, url: (poke.new_record? ? account_pokes_path(account) : poke_path(poke)), remote: true, class: "form") do |form| %>
+      <div class="input-group input-group-sm">
+        <div class="input-group-prepend">
+          <div class="input-group-text">
+            <%= form.check_box :live, title: 'Check to make it live or uncheck otherwise.' %>
+          </div>
+        </div>
+        <%= form.select :frequency, options_for_select(Poke::FREQUENCY_SET.keys, form.object.frequency), {}, class: "custom-select col-3" %>
+        <%= form.text_field :url, class: "form-control form-control-sm" %>
+        <div class="input-group-append">
+          <%= form.submit (poke.new_record? ? "Create" : "Update & Refresh"), class: "btn btn-primary", data: {disable_with: 'Processing...'} %>
+        </div>
+      </div>
+    <% end %>
+
+    <% unless poke.new_record? %>
+      <div class="alert alert-info mb-0 monospace_text" style="display: none">
+        <h6>Latest responses</h6>
+        <% poke.latest_responses.each do |_response| %>
+          <li><%= truncate(_response.inspect, length: 217) %></li>
+        <% end %>
+      </div>
+    <% end %>
+
+  </div>
+
+</div>

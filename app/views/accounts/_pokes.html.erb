@@ -1,0 +1,8 @@
+<%= render(partial: 'pokes/card', locals: {account: @account, poke: @account.pokes.new}) %>
+<% account.pokes.order('id desc').each do |poke| %>
+  <%= render(partial: 'pokes/card', locals: {poke: poke}) %>
+<% end %>
+
+<script type="text/javascript">
+    latestResponsesToggle();
+</script>

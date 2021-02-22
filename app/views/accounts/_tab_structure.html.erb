@@ -1,0 +1,18 @@
+<div class="row">
+  <div class="col-12"><h4><%= "Account: #{@account.name} (#{@account.id})" %></h4>
+    <hr/>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-9">
+    <div class="tab-content">
+      <div class="tab-pane fade show active">
+        <%= render(partial: partial_to_render) %>
+      </div>
+    </div>
+  </div>
+  <div class="col-3">
+    <%= render(partial: 'accounts/menu_bar') %>
+  </div>
+</div>

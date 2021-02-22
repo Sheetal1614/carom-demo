@@ -1,0 +1,4 @@
+$('.flash_notice_container').replaceWith('<%=j(render(partial: 'tool_components/flash_notice')) %>');
+<%unless @poke.new_record? %>
+window.location = '<%=account_path(@account) %>';
+<%end %>

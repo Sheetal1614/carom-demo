@@ -1,0 +1,24 @@
+<nav class="navbar navbar-dark bg-dark mb-4">
+  <%= link_to root_path, class: "navbar-brand" do %>
+    <%= image_tag 'carom.jpg', class: "d-inline-block align-top" %>
+    <%= app_name %>
+  <% end %>
+
+  <ul class="nav justify-content-end">
+    <li class="nav-item">
+      <%= link_to 'Accounts', root_path, class: "nav-link" %>
+    </li>
+    <li class="nav-item">
+      <%= link_to 'Documents', documents_path, class: "nav-link" %>
+    </li>
+    <% if current_almighty %>
+      <li class="nav-item">
+        <span class="navbar-text">
+          Welcome <%= current_almighty.name %>.
+          <%= link_to 'Log out', session_path, method: :delete, data: {confirm: 'Are you sure?'} %>
+        </span>
+      </li>
+    <% end %>
+  </ul>
+
+</nav>

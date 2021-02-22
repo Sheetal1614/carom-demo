@@ -1,0 +1,3 @@
+$('.flash_notice_container').replaceWith('<%=j(render(partial: 'tool_components/flash_notice')) %>');
+$('.poke_form_<%= @poke.id %>').replaceWith('<%=j(render(partial: 'pokes/card', locals: {poke: @poke})) %>');
+latestResponsesToggle();

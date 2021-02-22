@@ -1,0 +1,36 @@
+pipelines:
+  carom-build-push-1:
+    group: carom
+    display_order: -1
+    materials:
+      mygit:
+        branch: master
+        git: org-62409820@github.com:McK-Internal/MDE_ProposeToWin-carom.git
+    stages:
+      - docker_build_and_docker_push:
+          jobs:
+            construct_image:
+              artifacts:
+                - build:
+                    source: latest_git_sha
+              tasks:
+                - exec:
+                    command: bash
+                    arguments:
+                      - "-c"
+                      - "git rev-parse --short HEAD > latest_git_sha"
+                - exec:
+                    command: bash
+                    arguments:
+                      - "-c"
+                      - "docker build -f Dockerfile4GoCD -t artifacts.intranet.mckinsey.com/k8s-proposetowin-snapshots/carom:`cat latest_git_sha` ."
+                - exec:
+                    command: bash
+                    arguments:
+                      - "-c"
+                      - "docker login -u $ARTIFACTORY_USER -p $ARTIFACTORY_PASS artifacts.intranet.mckinsey.com"
+                - exec:
+                    command: bash
+                    arguments:
+                      - "-c"
+                      - "docker push artifacts.intranet.mckinsey.com/k8s-proposetowin-snapshots/carom:`cat latest_git_sha`"
