@@ -1,17 +1,12 @@
 # Base Image
-FROM artifacts.intranet.mckinsey.com/gold-images/ruby:2.6-alpine
+FROM artifacts.intranet.mckinsey.com/dockerhub/ruby:3.0-slim
 
 # Switching to root user
 USER root
 
 # Installing required libraries
-RUN apk update && apk upgrade && \
-apk add ruby ruby-json ruby-io-console ruby-bundler ruby-irb ruby-bigdecimal tzdata && \
-apk add nodejs && \
-apk add curl-dev ruby-dev build-base libffi-dev git && \
-apk add build-base libxslt-dev libxml2-dev ruby-rdoc mysql-dev sqlite-dev && \
-apk add mysql-client && \
-apk add curl
+RUN apt-get update -qq
+RUN apt-get install -y build-essential curl git nodejs libmariadb-dev
 
 ENV SUPERCRONIC_URL=https://github.com/aptible/supercronic/releases/download/v0.1.12/supercronic-linux-amd64 \
     SUPERCRONIC=supercronic-linux-amd64 \
@@ -39,8 +34,8 @@ WORKDIR /app
 COPY . .
 
 # Adding a non root user
-RUN addgroup -S carom
-RUN adduser -u 1001 -S carom -G carom -h /home/carom
+RUN groupadd --system carom
+RUN useradd -u 1001 --system carom -g carom -d /home/carom -m -s /bin/bash
 RUN chown -R carom /app
 RUN chmod -R 777 /app
 
