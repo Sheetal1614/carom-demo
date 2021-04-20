@@ -19,7 +19,7 @@ bundle exec rake db:migrate
 #echo "Running db's seed..."
 #bundle exec rake db:seed
 
-echo "Starting 'god' which keeps eye on backburner worker (beanstalk based active job worker) (running using raketask)"
+echo "Starting 'god' which keeps eye on supercronic worker (running using raketask)"
 god -c supercronic_worker_god.rb
 bundle exec rake carom:provision_cron
 
