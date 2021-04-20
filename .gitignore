@@ -33,6 +33,8 @@ yarn-debug.log*
 
 /mysql_data
 
+docker-compose.yml
+
 carom-crontab
 
 git.info

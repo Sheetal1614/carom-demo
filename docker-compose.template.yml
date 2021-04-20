@@ -3,9 +3,9 @@ services:
   db:
     image: "mysql:5.7"
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_USERNAME: root
-      MYSQL_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_USERNAME: secret
+      MYSQL_PASSWORD: secret
     volumes:
       - ./mysql_data:/var/lib/mysql
     command: [ 'mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci' ]
@@ -23,9 +23,9 @@ services:
     ports:
       - "3006:3000"
     environment:
-      CAROM_DATABASE_USERNAME: root
-      CAROM_DATABASE_PASSWORD: root
-      CAROM_DATABASE_NAME: carom
+      CAROM_DATABASE_USERNAME: secret
+      CAROM_DATABASE_PASSWORD: secret
+      CAROM_DATABASE_NAME: secret
       CAROM_DATABASE_PORT: 3306
       CAROM_DATABASE_HOST: db
       RAILS_ENV: development
