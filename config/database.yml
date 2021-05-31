@@ -9,11 +9,19 @@
 # And be sure to use new-style password hashing:
 #   https://dev.mysql.com/doc/refman/5.7/en/password-hashing.html
 #
+# Reference: https://bigbinary.com/learn-rubyonrails-book/configure-and-connect-to-database
+#  pool - Maximum number of connections to database per application.
+#  Defaults to 5.
+#  e.g. 2 * 16 (puma) + 1 * 10 (sidekiq) = 42
+#  here, 2 - puma processes, each process has 16 threads
+#        1 - sidekiq process, each process has 10 threads
+#  And have added 5 extra
+#
 default: &default
   adapter: mysql2
   encoding: utf8mb4
   collation: utf8mb4_unicode_ci
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  pool: <%= ((ENV.fetch("WEB_CONCURRENCY") { 2 }.to_i * ENV.fetch("RAILS_MAX_THREADS") { 6 }.to_i) + (1 * 0) + 5) %>
   database: <%= ENV.fetch("CAROM_DATABASE_NAME") %>
   username: <%= ENV.fetch("CAROM_DATABASE_USERNAME") %>
   password: <%= ENV.fetch("CAROM_DATABASE_PASSWORD") %>
