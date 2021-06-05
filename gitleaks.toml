@@ -1,0 +1,141 @@
+
+# This is a sample config file for gitleaks. You can configure gitleaks what to search for and what to whitelist.
+# The output you are seeing here is the default gitleaks config. If GITLEAKS_CONFIG environment variable
+# is set, gitleaks will load configurations from that path. If option --config is set, gitleaks will load
+# configurations from that path. Gitleaks does not whitelist anything by default.
+# - https://www.ndss-symposium.org/wp-content/uploads/2019/02/ndss2019_04B-3_Meli_paper.pdf
+# - https://github.com/dxa4481/truffleHogRegexes/blob/master/truffleHogRegexes/regexes.json
+
+title = "gitleaks config"
+[[rules]]
+description = "AWS Client ID"
+regex = '''(A3T[A-Z0-9]|AKIA|AGPA|AIDA|AROA|AIPA|ANPA|ANVA|ASIA)[A-Z0-9]{16}'''
+tags = ["key", "AWS"]
+  [rules.allowlist]
+    description = "Exclude example AWS key"
+    regexes = [
+      '''AKIA.{9}EXAMPLE'''
+    ]
+
+[[rules]]
+description = "AWS Secret Key"
+regex = '''(?i)aws(.{0,20})?(?-i)['\"][0-9a-zA-Z\/+]{40}['\"]'''
+tags = ["key", "AWS"]
+
+[[rules]]
+description = "AWS MWS key"
+regex = '''amzn\.mws\.[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}'''
+tags = ["key", "AWS", "MWS"]
+
+[[rules]]
+description = "Basic Authentication"
+regex = '''\/\/[^:\/?#[\]@!$&%<>{}\\'()*+,;=\s]+:([^:\/?#[\]@!$&%<>{}\\'()*+,;=\s]+)@'''
+tags = ["key", "basic", "auth"]
+[rules.allowlist]
+  description = "Exclude test DSN string"
+  regexes = [
+    '''//user(name)?:password@''',
+    '''//postgres(_user)?(?i):postgres(_password)?(?i)@'''
+  ]
+
+[[rules]]
+description = "Private Key File"
+regex = '''-----BEGIN[ A-Z]* PRIVATE KEY[ A-Z]*-----'''
+tags = ["key", "PEM"]
+
+[[rules]]
+description = "Putty Private Key File"
+regex = '''PuTTY-User-Key-File-2'''
+tags = ["key", "PuTTY"]
+
+[[rules]]
+description = "Github"
+regex = '''(?i)github(.{0,20})?(?-i)['\"][0-9a-zA-Z]{35,40}['\"]'''
+tags = ["key", "Github"]
+
+[[rules]]
+description = "Generic API key"
+regex = '''(?i)(api_key|apikey)(.{0,20})?['|"][0-9a-zA-Z]{32,45}['|"]'''
+tags = ["key", "API", "generic"]
+
+[[rules]]
+description = "Generic Secret, Password or Token"
+regex = '''(?i)(password|secret|token)+(.{0,20})?['|"][0-9a-zA-Z]{32,80}['|"]'''
+tags = ["key", "Secret", "generic"]
+  [rules.allowlist]
+    description = "Test AES256 encryption key used in AppFactory tests"
+    regexes = [
+      '''6368616e676520746869732070617373776f726420746f206120736563726575'''
+    ]
+
+[[rules]]
+description = "Google API key"
+regex = '''AIza[0-9A-Za-z\\-_]{35}'''
+tags = ["key", "Google"]
+
+[[rules]]
+description = "Google Cloud Platform API key"
+regex = '''(?i)(google|gcp|youtube|drive|yt)(.{0,20})?['\"][AIza[0-9a-z\\-_]{35}]['\"]'''
+tags = ["key", "Google", "GCP"]
+
+[[rules]]
+description = "Google OAuth"
+regex = '''(?i)(google|gcp|auth)(.{0,20})?['"][0-9]+-[0-9a-z_]{32}\.apps\.googleusercontent\.com['"]'''
+tags = ["key", "Google", "OAuth"]
+
+[[rules]]
+description = "Google OAuth access token"
+regex = '''ya29\.[0-9A-Za-z\-_]+'''
+tags = ["key", "Google", "OAuth"]
+
+[[rules]]
+description = "Heroku API key"
+regex = '''(?i)heroku(.{0,20})?['"][0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}['"]'''
+tags = ["key", "Heroku"]
+
+[[rules]]
+description = "JSON Web Token"
+regex = '''eyJ[A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+\.?[A-Za-z0-9-_.+/=]*?'''
+tags = ["key", "jwt"]
+
+[[rules]]
+description = "PayPal Braintree access token"
+regex = '''access_token\$production\$[0-9a-z]{16}\$[0-9a-f]{32}'''
+tags = ["key", "Paypal"]
+
+[[rules]]
+description = "Picatic API key"
+regex = '''sk_live_[0-9a-z]{32}'''
+tags = ["key", "Picatic"]
+
+[[rules]]
+description = "Slack Webhook"
+regex = '''https://hooks.slack.com/services/T[a-zA-Z0-9_]{8}/B[a-zA-Z0-9_]{8}/[a-zA-Z0-9_]{24}'''
+tags = ["key", "slack"]
+
+[[rules]]
+description = "Stripe API key"
+regex = '''(?i)stripe(.{0,20})?['\"][sk|rk]_live_[0-9a-zA-Z]{24}'''
+tags = ["key", "Stripe"]
+
+[[rules]]
+description = "Twilio API key"
+regex = '''(?i)twilio(.{0,20})?['\"][0-9a-f]{32}['\"]'''
+tags = ["key", "twilio"]
+
+[allowlist]
+	description = "Allowlists for binaries and go vendor packages"
+	files = ['''(.*?)(jpg|gif|doc|pdf|bin|png|svg)$''']
+  paths = [
+    '''vendor/github.com/lib/pq/*''',
+    '''vendor/k8s.io/client-go/plugin/pkg/client/auth/gcp/gcp.go'''
+  ]
+
+
+#commits = [
+#  "whitelisted-commit1",
+#  "whitelisted-commit2",
+#]
+#repos = [
+#	"whitelisted-repo"
+#]
