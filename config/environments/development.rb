@@ -30,6 +30,9 @@ Rails.application.configure do
     config.cache_store = :null_store
   end
 
+  # Prepend all log lines with the following tags.
+  config.log_tags = ['carom', 'development', :request_id]
+
   # Store uploaded files on the local file system (see config/storage.yml for options).
   config.active_storage.service = :local
 

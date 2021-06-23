@@ -51,7 +51,7 @@ Rails.application.configure do
   config.log_level = :debug
 
   # Prepend all log lines with the following tags.
-  config.log_tags = ['carom', 'integration', :request_id]
+  config.log_tags = ['carom', 'integration', :request_id, lambda {|request| request.user_agent}]
 
   # Use a different cache store in production.
   #config.cache_store = :mem_cache_store
