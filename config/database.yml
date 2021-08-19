@@ -27,8 +27,11 @@ default: &default
   password: <%= ENV.fetch("CAROM_DATABASE_PASSWORD") %>
   host: <%= ENV.fetch("CAROM_DATABASE_HOST") %>
   port: <%= ENV.fetch("CAROM_DATABASE_PORT") %>
+  checkout_timeout: 30 #seconds
+  reconnect: <%= ENV.fetch("RECONNECT"){ true } %>
+  variables:
+    sql_mode: TRADITIONAL
   socket: /tmp/mysql.sock
-
 
 development:
   <<: *default

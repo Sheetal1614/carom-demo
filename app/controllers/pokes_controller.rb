@@ -45,7 +45,7 @@ class PokesController < ApplicationController
   private
 
   def poke_params
-    params.require(:poke).permit(:live, :url, :frequency)
+    params.require(:poke).permit(:live, :url, *Poke::CRON_FIELDS.keys)
   end
 
   def fetch_poke

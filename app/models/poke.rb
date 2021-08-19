@@ -1,25 +1,21 @@
 class Poke < ApplicationRecord
 
   # --------- Constants ----------------------------------------------------
-  FREQUENCY_SET = {
-      'Every 15 seconds' => '*/15 * * * * * *',
-      'Every 30 seconds' => '*/30 * * * * * *',
-      'Every 45 seconds' => '*/45 * * * * * *',
-      'Every minute' => '*/1 * * * *'
-  }
+  # For cron expression refer: https://www.freeformatter.com/cron-expression-generator-quartz.html
+  CRON_FIELDS = {cron_seconds: '*', cron_minutes: '*', cron_hours: '*', cron_day_of_month: '*', cron_month: '*', cron_day_of_week: '*', cron_year: '*'}
   RESPONSE = 'RESPONSE'
   EXCEPTION = 'EXCEPTION'
 
   # --------- Stored attributes --------------------------------------------
   store :other_attributes,
-        accessors: [:url, :validating_uuid, :latest_responses],
+        accessors: ([:url, :validating_uuid, :latest_responses] + CRON_FIELDS.keys),
         coder: JSON
 
   # --------- Associations -------------------------------------------------
   belongs_to :account, inverse_of: :pokes
 
   # --------- Validations --------------------------------------------------
-  validates :frequency, presence: true, inclusion: {in: FREQUENCY_SET.keys.collect(&:to_s)}
+  validates :frequency, presence: true
   validates :url, presence: true,
             format: {with: /\Ahttps?:\/\/(.*\.intranet\.mckinsey\.com|[\w]{1,}|\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(:\d+)?(\S*)\z/i,
                      message: 'should be valid McKinsey intranet(or host or ip address with/out port) url starting with http/https.'}
@@ -28,9 +24,22 @@ class Poke < ApplicationRecord
   # --------- Callbacks ----------------------------------------------------
   after_initialize do
     self.latest_responses ||= []
+    CRON_FIELDS.each do |field_name, default_value|
+      self.send("#{field_name}=", default_value) if self.send("#{field_name}").blank?
+    end
   end
+
+  before_validation :try_populating_cron_fields
+  before_validation :try_populating_frequency
   before_validation :try_populating_validating_uuid
   before_validation :try_trimming_latest_responses
+
+  after_save :refresh_crontab_file
+  after_destroy :refresh_crontab_file
+
+  def refresh_crontab_file
+    `rake carom:provision_cron`
+  end
 
   # --------- Instance methods ---------------------------------------------
   def do(force = false)
@@ -61,6 +70,16 @@ class Poke < ApplicationRecord
   end
 
   private
+
+  def try_populating_frequency
+    self.frequency = CRON_FIELDS.keys.collect{|_field| self.send(_field).to_s.strip}.join(" ")
+  end
+
+  def try_populating_cron_fields
+    CRON_FIELDS.each do |field_name, default_value|
+      self.send("#{field_name}=", default_value) if self.send("#{field_name}").blank?
+    end
+  end
 
   def try_populating_validating_uuid
     self.validating_uuid ||= SecureRandom.uuid
