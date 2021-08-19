@@ -2,7 +2,18 @@ class Poke < ApplicationRecord
 
   # --------- Constants ----------------------------------------------------
   # For cron expression refer: https://www.freeformatter.com/cron-expression-generator-quartz.html
-  CRON_FIELDS = {cron_seconds: '*', cron_minutes: '*', cron_hours: '*', cron_day_of_month: '*', cron_month: '*', cron_day_of_week: '*', cron_year: '*'}
+  CRON_HELP =<<EOF
+Field name     Mandatory?   Allowed values    Allowed special characters
+----------     ----------   --------------    --------------------------
+Seconds        No           0-59              * / , -
+Minutes        Yes          0-59              * / , -
+Hours          Yes          0-23              * / , -
+Day of month   Yes          1-31              * / , - L W
+Month          Yes          1-12 or JAN-DEC   * / , -
+Day of week    Yes          0-6 or SUN-SAT    * / , - L #
+Year           No           1970–2099         * / , -
+EOF
+  CRON_FIELDS = {cron_seconds: '1', cron_minutes: '*', cron_hours: '*', cron_day_of_month: '*', cron_month: '*', cron_day_of_week: '*', cron_year: '*'}
   RESPONSE = 'RESPONSE'
   EXCEPTION = 'EXCEPTION'
 

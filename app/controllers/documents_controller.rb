@@ -11,8 +11,10 @@ class DocumentsController < ApplicationController
 Create a new account (after signup).
 EOF
         'Step 02' => <<EOF,
-Update account details, configure frequency and url.
+Update account details, configure cron expression and url.
 
+Cron expression hint:
+#{Poke::CRON_HELP}
 Note: Url should accept POST request with(/out) parameters and respond with 2xx response.
 And returning response should have response header 'validating-uuid' with value duplicating from request header of same name, 
 else 'doable' & 'live' will fail.
