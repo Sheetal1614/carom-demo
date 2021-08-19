@@ -6,10 +6,9 @@ God.watch do |w|
   # w.env = { 'PADRINO_ENV' => 'production', 'QUEUES' => 'newsletter-sender,push-message' }
   w.group    = 'supercronic-workers'
   w.interval = 30.seconds
-  # w.start = "bundle exec rake supercronic:work THREADS=5"
-  # w.start = "supercronic -split-logs ./carom-crontab 2>&1"
-  w.start = "supercronic -split-logs ./carom-crontab 1>./log/cron.log"
-  # w.start = "supercronic -split-logs ./carom-crontab 1>./stdout.log"
+  w.start = "supercronic -split-logs ./carom-crontab 2>&1"
+  # w.start = "supercronic -split-logs ./carom-crontab 1>./log/cron.log"
+  w.stop = "ps axf | grep \"supercronic -split-logs\" | grep -v grep | awk '{print \"kill -9 \" $1}' | sh"
   # w.log   = "/var/log/god/supercronic-worker-1.log" #That means logging on STDOUT
 
   # restart if memory gets too high

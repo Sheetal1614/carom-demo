@@ -22,8 +22,10 @@ bundle exec rake db:migrate
 #echo "Running db's seed..."
 #bundle exec rake db:seed
 
-echo "Starting 'god' which keeps eye on supercronic worker (running using raketask)"
+echo "Starting supercronic worker (via 'god')"
 god -c supercronic_worker_god.rb
+
+echo "Provisioning crontab..."
 bundle exec rake carom:provision_cron
 
 # Start Application
