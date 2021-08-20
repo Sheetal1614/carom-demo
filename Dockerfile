@@ -1,5 +1,5 @@
 # Base Image
-FROM artifacts.intranet.mckinsey.com/dockerhub/ruby:3.0-slim
+FROM artifacts.intranet.mckinsey.com/gold-images/ruby:3.0
 
 # Switching to root user
 USER root
