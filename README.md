@@ -1,7 +1,7 @@
 # Carom
 
 # How to run the application via docker (standalone)
-1. To build and run web and db containers.
+1. To build and run web and db containers 
     
     ```docker-compose up```
 
