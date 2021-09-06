@@ -75,6 +75,17 @@ Rails.application.configure do
       access_token: "some-token-in-uuid"
   }
 
+  config.fennel_connector = {
+      host: ENV.fetch("FENNEL_HOST"),
+      name: "Carom Local",
+      refresh_token: ENV.fetch("CAROM_FENNEL_REFRESH_TOKEN"),
+      access_token: 'some-access-token-which-will-be-populated-after-refresh'
+  }
+
   # To allow requests to carom with host 'carom'
   config.hosts << "carom"
+
+  # Setting web host as default URL
+  routes.default_url_options = {host: "localhost", port: 3000}
+
 end

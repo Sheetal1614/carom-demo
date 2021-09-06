@@ -6,7 +6,16 @@ Rails.application.routes.draw do
   get '/sign-up', to: 'sessions#sign_up', as: 'sign_up'
   post '/sign-up', to: 'sessions#sign_up'
 
-  resource :session, only: [:create, :destroy]
+  resource :session, only: [:create, :destroy] do
+    collection do
+      get :login
+
+      get :okta_login
+      post :okta_login
+
+      post :renew_fennel_access_token
+    end
+  end
 
   resources :accounts, only: [:index, :create, :show] do
     resources :pokes, only: [:new, :create]

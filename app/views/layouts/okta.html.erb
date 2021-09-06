@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= app_name %></title>
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+</head>
+
+<body ng-app="myNoteApp" ng-controller="myNoteCtrl" class="d-flex flex-column">
+
+<%= render(partial: 'tool_components/nav_bar') %>
+<section class="container-fluid flex-grow">
+  <div class="container">
+    <%= render(partial: 'tool_components/flash_notice') %>
+    <%= yield %>
+  </div>
+</section>
+<%= render(partial: 'tool_components/footer') %>
+
+
+</body>
+
+</html>

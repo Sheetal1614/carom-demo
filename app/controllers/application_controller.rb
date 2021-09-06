@@ -19,7 +19,10 @@ class ApplicationController < ActionController::Base
   private
 
   def restricted_to_logged_in_almighty_only
-    redirect_to(root_path, notice: 'Restricted access. Please login') unless current_almighty
+    return if current_almighty
+
+    cookies[:redirect_to_after_login] = request.path
+    redirect_to(root_path, notice: 'Restricted access. Please login')
   end
 
 end
