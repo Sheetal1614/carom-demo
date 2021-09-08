@@ -1,0 +1,32 @@
+<div class="col-sm-6 mb-4" id='member_card_<%= member.id %>'>
+  <% is_team_lead = (member.kind == Membership::MT_TEAM_LEADER) %>
+
+  <div class="card border-secondary">
+    <div class="card-body">
+      <div class="card-title">
+        <div class="row">
+          <div class="col-12">
+            <h5><%= member.name %>
+              <% if is_team_lead %>
+                <span class="badge badge-pill badge-secondary">Team lead</span>
+              <% end %>
+            </h5>
+          </div>
+        </div>
+      </div>
+
+      <p class="card-text">
+        Email: <%= member.email %><br/>
+        Fmno: <%= member.fmno %>
+      </p>
+      <% if current_user.leading_teams.exists?(id: @team.id) %>
+        <div class="btn-group btn-group-sm" role="group">
+          <%= link_to("#{is_team_lead ? 'Revoke' : 'Grant'} team lead", toggle_team_leader_team_path(@team, member_id: member.id),
+                      method: :post, class: "btn btn-outline-primary", remote: true, data: {confirm: 'Are you sure?'}) %>
+          <%= link_to("Remove", remove_member_team_path(@team, member_id: member.id),
+                      method: :delete, class: "btn btn-outline-secondary", remote: true, data: {confirm: 'Are you sure?'}) %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

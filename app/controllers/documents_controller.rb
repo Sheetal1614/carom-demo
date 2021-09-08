@@ -3,7 +3,7 @@
 class DocumentsController < ApplicationController
 
   # --------- Filters ------------------------------------------------------
-  skip_before_action :restricted_to_logged_in_almighty_only
+  skip_before_action :restricted_to_logged_in_user_only
 
   def index
     @apis_listing = {

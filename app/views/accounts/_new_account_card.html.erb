@@ -1,0 +1,22 @@
+<div class="col-sm-4">
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">Add new account</h5>
+      <div class="card-text">
+        <%= form_for(@account || Account.new, url: accounts_path) do |form| %>
+          <div class="form-group">
+            <label for="team_select">Team</label>
+            <%= form.select :team_id, options_for_select(current_user.leading_teams.collect {|team| [team.name, team.id]}), {}, class: "form-control" %>
+          </div>
+
+          <div class="input-group mb-2">
+            <%= form.text_field :name, class: "form-control", placeholder: "Account's name" %>
+            <div class="input-group-append">
+              <%= form.submit 'Create', class: "btn btn-primary" %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

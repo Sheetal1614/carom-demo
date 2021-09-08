@@ -4,7 +4,7 @@ class PokesController < ApplicationController
   before_action :fetch_poke, only: [:update, :destroy]
 
   def create
-    @account = current_almighty.accounts.where(id: params[:account_id]).take
+    @account = current_user.accounts.where(id: params[:account_id]).take
 
     _notice = if @account
                 @poke = @account.pokes.new(poke_params)
@@ -49,7 +49,7 @@ class PokesController < ApplicationController
   end
 
   def fetch_poke
-    return if (@poke = current_almighty.pokes.where(id: params[:id]).take)
+    return if (@poke = current_user.pokes_from_teams.where(id: params[:id]).take)
     redirect_on_inaccessible_poke
   end
 

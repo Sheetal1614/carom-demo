@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 git_source(:github) {|repo| "https://github.com/#{repo}.git"}
 
-ruby '>= 3'
+ruby '>= 2.7'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 6'
@@ -35,6 +35,9 @@ gem 'splunk_notifier', '~> 0.0.3', source: "http://gems.intranet.mckinsey.com"
 gem 'exception_notification'
 
 gem 'ThymeFieldAccommodator', '~> 0.7.3', source: "http://gems.intranet.mckinsey.com"
+
+# Use select2(jquery based select overload). Ref https://github.com/argerim/select2-rails
+gem "select2-rails"
 
 # For process monitoring # http://godrb.com/
 gem 'god'

@@ -1,0 +1,7 @@
+<h5>Accounts</h5>
+
+<div class="row">
+  <% @accounts.each do |account| %>
+    <%= render(partial: 'under_grounds/account_card', locals: {account: account}) %>
+  <% end %>
+</div>

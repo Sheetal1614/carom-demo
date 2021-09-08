@@ -1,0 +1,49 @@
+<h5>Application admins</h5>
+
+<div class="row">
+
+  <!-- New application admin form-->
+  <div class="col-12 mb-4">
+    <div class="card">
+      <div class="card-body">
+
+        <div class="row edit_card">
+          <div class="col-12">
+            <h5>Add new</h5>
+            <%= form_with url: application_admins_under_grounds_path(action_2_perform: :add), method: :post do %>
+
+              <div class="row mb-3">
+                <div class="col-12">
+                  <%= select_tag 'fmnos_with_name_and_email[]', '', multiple: true, id: 'fmnos_select2_field', class: 'form-control' %>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12 text-right">
+                  <%= submit_tag 'Add Application admins', class: "btn btn-sm btn-primary" %>
+                </div>
+              </div>
+            <% end %>
+
+            <script type="text/javascript">
+                $('#fmnos_select2_field').select2({
+                    theme: "bootstrap",
+                    placeholder: "Search and select users(members) by name or fmno to add as 'Application admin'",
+                    multiple: true,
+                    ajax: {
+                        url: '<%=people_enumerations_path(format: :json, combine_name_email_and_fmno: true) %>',
+                        dataType: 'json'
+                    }
+                });
+            </script>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <% User.application_admins.each do |user| %>
+    <%= render(partial: 'under_grounds/user_card', locals: {user: user}) %>
+  <% end %>
+</div>

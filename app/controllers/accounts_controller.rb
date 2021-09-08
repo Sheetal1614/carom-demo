@@ -4,19 +4,23 @@ class AccountsController < ApplicationController
   before_action :fetch_account, only: [:show]
 
   def index
-    @accounts = current_almighty.accounts.order('id desc')
+    @accounts = current_user.accounts.order('id desc')
   end
 
   def show
   end
 
   def create
-    account = current_almighty.accounts.new(account_params)
-    message = if account.save
-                'Account created.'
+    message = if (team = current_user.leading_teams.where(id: params.dig(:account, :team_id)).take)
+                account = team.accounts.new(account_params)
+
+                if account.save
+                  'Account created.'
+                else
+                  "Failed to create account because, #{account.errors.full_messages.to_sentence}"
+                end
               else
-                Rails.logger.debug(account.errors.inspect)
-                'Failed to create account.'
+                'Team not found.'
               end
 
     redirect_to accounts_path, notice: message
@@ -29,19 +33,14 @@ class AccountsController < ApplicationController
   end
 
   def fetch_account
-    return if (@account = current_almighty.accounts.includes(:pokes).where(id: params[:id]).take)
-    redirect_on_inaccessible_account
-  end
+    return if (@account = current_user.accounts.where(id: params[:id]).take)
 
-  def redirect_on_inaccessible_account
-    _message = "Either account doesn't exist or is not accessible for the operation."
-    _redirect_to_path = accounts_path
-
+    message = "Either account doesn't exist or is not accessible for the operation."
     if request.xhr?
-      flash[:notice] = _message
-      render js: "window.location = '#{_redirect_to_path}'"
+      flash[:notice] = message
+      render(js: "window.location = '#{accounts_path}'; ")
     else
-      redirect_to(_redirect_to_path, notice: _message)
+      redirect_to(accounts_path, notice: message)
     end
   end
 

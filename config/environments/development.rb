@@ -75,6 +75,13 @@ Rails.application.configure do
       access_token: "some-token-in-uuid"
   }
 
+  config.holy_basil_connector = {
+      host: ENV.fetch("HOLY_BASIL_HOST"),
+      name: "CaromLocal",
+      refresh_token: ENV.fetch("CAROM_HOLY_BASIL_REFRESH_TOKEN"),
+      access_token: 'some-access-token-which-will-be-populated-after-refresh'
+  }
+
   config.fennel_connector = {
       host: ENV.fetch("FENNEL_HOST"),
       name: "Carom Local",

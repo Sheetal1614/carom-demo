@@ -4,7 +4,7 @@
   #ug_menu_items << {label: 'Accounts', url: accounts_team_path(@team), match: {controller: 'teams', action: 'accounts'}}
 
 
-  other_accounts = current_almighty.accounts.where.not(id: @account.id)
+  other_accounts = current_user.accounts.where.not(id: @account.id)
   if other_accounts.exists?
     ug_menu_items << {type: :separator, label: 'Other accounts'}
 

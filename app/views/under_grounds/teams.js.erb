@@ -1,0 +1,21 @@
+<%if @team %>
+  <%if params[:action_2_perform] == 'update' %>
+    <%if @result %>
+      $('#team_card_<%= @team.id %>').replaceWith('<%=j(render(partial: 'under_grounds/team_card', locals: {team: @team})) %>');
+    <%end %>
+  <%elsif params[:action_2_perform] == 'delete' %>
+    <%if @result %>
+      <%flash[:notice] = @flash_notice if @flash_notice %>
+      window.location = '<%=teams_under_grounds_path %>';
+    <%end %>
+  <%end %>
+<%elsif params[:action_2_perform] == 'add' %>
+  <%if @result %>
+    <%flash[:notice] = @flash_notice if @flash_notice %>
+    window.location = '<%=teams_under_grounds_path %>';
+  <%end %>
+<%else %>
+  alert("Unable to find the team.")
+<%end %>
+
+$('.flash_notice_container').replaceWith('<%=j(render(partial: 'tool_components/flash_notice')) %>');

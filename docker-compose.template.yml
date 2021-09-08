@@ -28,6 +28,10 @@ services:
       CAROM_DATABASE_NAME: secret
       CAROM_DATABASE_PORT: 3306
       CAROM_DATABASE_HOST: db
+      HOLY_BASIL_HOST:
+      CAROM_HOLY_BASIL_REFRESH_TOKEN:
+      FENNEL_HOST: http://fennel:3000
+      CAROM_FENNEL_REFRESH_TOKEN:
       RAILS_ENV: development
       RAILS_MAX_THREADS: 5
       CACHE_HOST: memcache

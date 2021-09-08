@@ -1,0 +1,31 @@
+<div class="row mb-3 signup_toggle_form">
+  <div class="col">
+    <div class="card border-info">
+      <div class="card-body">
+        <h5 class="card-title">Toggle Sign-up</h5>
+
+        <div class="card-text">
+          <%= form_with(url: miscellaneous_under_grounds_path(action_2_perform: 'toggle_signup'), remote: true, data: {confirm: 'Are you sure?'}) do %>
+            <div class="form-row">
+              <div class="col">
+                <% if signup_enabled? %>
+                  Signup is currently enabled.
+                  <button type="submit" name="toggle_to" value="switch_off" class="btn btn-sm btn-outline-primary">Disable
+                    Sign up
+                  </button>
+                <% else %>
+                  Signup is currently disabled.
+                  <button type="submit" name="toggle_to" value="switch_on" class="btn btn-sm btn-outline-primary">Enable
+                    for
+                    next 10 mins
+                  </button>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

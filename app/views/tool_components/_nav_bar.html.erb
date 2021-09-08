@@ -3,20 +3,27 @@
     <%= image_tag 'carom.jpg', class: "d-inline-block align-top" %>
     <%= app_name %>
   <% end %>
+  <%
+    menu_items = []
+    menu_items << {label: 'Accounts', uri: accounts_path}
+    menu_items << {label: 'Team', uri: members_team_path(current_user.teams.first)} if current_user
+
+    if current_user and current_user.application_admin?
+      menu_items << {label: 'Under grounds', uri: under_grounds_path}
+    end
+
+    menu_items << {label: 'Documents', uri: documents_path}
+    menu_items << {label: "<span class='navbar-text'>Welcome #{current_user.name}. #{link_to('Log out', session_path, method: :delete, data: {confirm: 'Are you sure?'})}</span>"} if current_user
+  %>
 
   <ul class="nav justify-content-end">
-    <li class="nav-item">
-      <%= link_to 'Accounts', root_path, class: "nav-link" %>
-    </li>
-    <li class="nav-item">
-      <%= link_to 'Documents', documents_path, class: "nav-link" %>
-    </li>
-    <% if current_almighty %>
+    <% menu_items.each do |menu_item| %>
       <li class="nav-item">
-        <span class="navbar-text">
-          Welcome <%= current_almighty.name %>.
-          <%= link_to 'Log out', session_path, method: :delete, data: {confirm: 'Are you sure?'} %>
-        </span>
+        <% if menu_item[:uri] %>
+          <%= link_to menu_item[:label], menu_item[:uri], class: "nav-link", target: menu_item[:target] %>
+        <% else %>
+          <%= raw menu_item[:label] %>
+        <% end %>
       </li>
     <% end %>
   </ul>

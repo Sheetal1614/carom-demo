@@ -1,0 +1,73 @@
+<% dom_id = "team_card_#{team.id}" %>
+<div id='<%= dom_id %>' class="col-12 mb-4">
+  <div class="card">
+    <div class="card-body">
+      <div class="row view_card">
+        <div class="col-12">
+          <h5><%= team.name %> (id: <%= team.id %>)</h5>
+        </div>
+        <div class="col-12">
+          <div class="row border-bottom">
+            <div class="col-3 text-right">Team leaders:</div>
+            <div class="col-9">
+              <% team.team_leaders.each do |member| %>
+                <li><%= member.email_with_name %></li>
+              <% end %>
+            </div>
+          </div>
+          <div class="row border-bottom">
+            <div class="col-3 text-right">Team members:</div>
+            <div class="col-9">
+              <% team.team_members.each do |member| %>
+                <li><%= member.email_with_name %></li>
+              <% end %>
+            </div>
+          </div>
+          <div class="row border-bottom">
+            <div class="col-3 text-right">Accounts:</div>
+            <div class="col-9">
+              <% team.accounts.each do |account| %>
+                <li><%= account.name %></li>
+              <% end %>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 text-right">
+          <%= link_to('Delete', teams_under_grounds_path(team_id: team, action_2_perform: :delete), method: :post,
+                      remote: true, data: {confirm: 'Are you sure?'}, class: "btn btn-sm btn-outline-danger") %>
+          <%= link_to('Edit', 'javascipt:void(0);', class: "btn btn-sm btn-outline-primary show_edit_card") %>
+        </div>
+      </div>
+      <div class="row edit_card" style="display: none">
+        <div class="col-12">
+          <h5><%= team.name %> (id: <%= team.id %>)</h5>
+          <%= form_with url: teams_under_grounds_path(team_id: team, action_2_perform: :update), method: :post, model: team do |f| %>
+            <div class="row mb-3">
+              <div class="col-6">
+                <%= f.label :name %>
+                <%= f.text_field :name, class: "form-control" %>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 text-right">
+                <%= link_to('Back', 'javascipt:void(0);', class: "btn btn-sm btn-outline-primary show_view_card") %>
+                <%= f.submit nil, class: "btn btn-sm btn-primary" %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+      <script type="text/javascript">
+          $('#<%= dom_id %> .show_edit_card').on('click', function () {
+              $('#<%= dom_id %> .view_card').hide();
+              $('#<%= dom_id %> .edit_card').show();
+          });
+          $('#<%= dom_id %> .show_view_card').on('click', function () {
+              $('#<%= dom_id %> .edit_card').hide();
+              $('#<%= dom_id %> .view_card').show();
+          });
+      </script>
+    </div>
+  </div>
+</div>

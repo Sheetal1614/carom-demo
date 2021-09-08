@@ -25,5 +25,39 @@ Rails.application.routes.draw do
 
   resources :documents, only: [:index]
 
+  resources :teams, only: [] do
+    member do
+      get :members
+      post :members
+
+      get :accounts
+      post :toggle_team_leader
+      delete :remove_member
+    end
+  end
+
+  get 'under_grounds', to: 'under_grounds#accounts'
+  resources :under_grounds, only: [] do
+    collection do
+      get :accounts
+      get :teams
+      get :application_admins
+      get :miscellaneous
+
+      post :account
+      post :teams
+      post :application_admins
+      post :miscellaneous
+
+      delete :application_admins
+    end
+  end
+
+  resources :enumerations, only: [], constraints: lambda {|req| req.format == :json} do
+    collection do
+      get :people
+    end
+  end
+
   root to: 'sessions#index'
 end

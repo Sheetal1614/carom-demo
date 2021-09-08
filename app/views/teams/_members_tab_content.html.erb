@@ -1,0 +1,9 @@
+<h5>Members</h5>
+
+<%= render(partial: 'teams/new_members_form') if current_user.leading_teams.exists?(id: @team.id) %>
+
+<div class="row">
+  <% @team.team_members.select('users.*', 'kind').each do |member| %>
+    <%= render(partial: 'teams/member_card', locals: {member: member}) %>
+  <% end %>
+</div>

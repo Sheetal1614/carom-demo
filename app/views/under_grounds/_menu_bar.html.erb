@@ -1,0 +1,12 @@
+<%
+  ug_menu_items = []
+  ug_menu_items << {label: 'Accounts', url: accounts_under_grounds_path, match: {controller: 'under_grounds', action: 'accounts'}}
+  ug_menu_items << {label: 'Teams', url: teams_under_grounds_path, match: {controller: 'under_grounds', action: 'teams'}}
+  ug_menu_items << {label: 'Application admins', url: application_admins_under_grounds_path, match: {controller: 'under_grounds', action: 'application_admins'}}
+  ug_menu_items << {label: 'Miscellaneous', url: miscellaneous_under_grounds_path, match: {controller: 'under_grounds', action: 'miscellaneous'}}
+%>
+<div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+  <% ug_menu_items.each do |ug_menu_items| %>
+    <%= link_to ug_menu_items[:label], ug_menu_items[:url], class: "nav-link shadow-sm mb-2 #{'active' if ug_menu_items[:match] == {controller: params[:controller], action: params[:action]}}" %>
+  <% end %>
+</div>

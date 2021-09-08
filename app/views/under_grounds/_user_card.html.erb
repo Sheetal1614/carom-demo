@@ -1,0 +1,23 @@
+<div class="col-sm-6 mb-4" id='user_card_<%= user.id %>'>
+  <div class="card border-secondary">
+    <div class="card-body">
+      <div class="card-title">
+        <div class="row">
+          <div class="col-12">
+            <h5><%= user.name %></h5>
+          </div>
+        </div>
+      </div>
+
+      <p class="card-text">
+        Email: <%= user.email %><br/>
+        Fmno: <%= user.fmno %>
+      </p>
+
+      <div class="btn-group btn-group-sm" role="group">
+        <%= link_to("Remove", application_admins_under_grounds_path(action_2_perform: :remove, user_id: user.id),
+                    method: :delete, class: "btn btn-outline-secondary", remote: true, data: {confirm: 'Are you sure?'}) %>
+      </div>
+    </div>
+  </div>
+</div>
