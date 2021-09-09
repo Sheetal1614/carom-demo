@@ -2,7 +2,7 @@ class Poke < ApplicationRecord
 
   # --------- Constants ----------------------------------------------------
   # For cron expression refer: https://www.freeformatter.com/cron-expression-generator-quartz.html
-  CRON_HELP =<<EOF
+  CRON_HELP = <<EOF
 Field name     Mandatory?   Allowed values    Allowed special characters
 ----------     ----------   --------------    --------------------------
 Seconds        No           0-59              * / , -
@@ -57,7 +57,10 @@ EOF
     if force or doable?
       Rails.logger.debug("Executing poke: #{['id', 'live', 'url', 'validating_uuid'].collect {|_method| {_method => self.send(_method)}}.inject(&:merge)}}")
       begin
-        _response = Faraday.new(url: self.url, headers: {'content-type': 'application/json', 'Validating-Uuid': self.validating_uuid}).post do |req|
+        _response = Faraday.new(url: self.url, headers: {'user-agent': "Carom (Faraday gem -v #{`gem -v faraday`.try(:chomp)})",
+                                                         'content-type': 'application/json',
+                                                         'http-referrer': 'Carom poke',
+                                                         'Validating-Uuid': self.validating_uuid}).post do |req|
           # req.body = params.to_json
         end
 
@@ -83,7 +86,7 @@ EOF
   private
 
   def try_populating_frequency
-    self.frequency = CRON_FIELDS.keys.collect{|_field| self.send(_field).to_s.strip}.join(" ")
+    self.frequency = CRON_FIELDS.keys.collect {|_field| self.send(_field).to_s.strip}.join(" ")
   end
 
   def try_populating_cron_fields

@@ -8,7 +8,7 @@ gem 'rails', '~> 6'
 # Use mysql as the database for Active Record
 gem 'mysql2', '>= 0.4.4'
 # Use Puma as the app server
-gem "puma", ">= 4.3.8"
+gem 'puma'
 # Use SCSS for stylesheets
 gem 'sass-rails', '>= 5'
 gem 'sprockets'
@@ -33,11 +33,22 @@ gem 'tzinfo'
 gem 'splunk_notifier', '~> 0.0.3', source: "http://gems.intranet.mckinsey.com"
 # For exception notification
 gem 'exception_notification'
-
-gem 'ThymeFieldAccommodator', '~> 0.7.3', source: "http://gems.intranet.mckinsey.com"
-
 # For process monitoring # http://godrb.com/
 gem 'god'
+#For active job #https://github.com/nesquena/backburner
+gem 'backburner'
+
+# Use Active Storage variant
+# gem 'image_processing', '~> 1.2'
+#For date validations
+gem 'date_validator'
+
+gem 'ThymeFieldAccommodator', '~> 0.7.3', source: "http://gems.intranet.mckinsey.com"
+# gem 'ThymeFieldAccommodator', path: "./LocalThymeFieldAccommodator"
+# gem 'faraday'
+
+# Use select2(jquery based select overload). Ref https://github.com/argerim/select2-rails
+gem "select2-rails"
 
 # Use Dalli for memcache connect
 gem 'dalli'
@@ -45,11 +56,26 @@ gem 'dalli'
 # Use for multi-threading in Dalli connection
 gem 'connection_pool'
 
-# Use Active Storage variant
-# gem 'image_processing', '~> 1.2'
-
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false
+
+# Box API for files and folder sharing
+gem 'boxr'
+
+# For A Sinatra app to view/manage beanstalkd queues
+gem 'beanstalkd_view'
+
+# Library for generating excel files
+gem 'caxlsx'
+
+# JsonPath is a way of addressing elements within a JSON object. Read more: https://github.com/joshbuddy/jsonpath
+gem 'jsonpath'
+
+# A framework for creating flexible, powerful admin dashboards in Rails.
+gem "administrate"
+
+#State machine
+gem 'state_machines-activerecord'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -63,6 +89,9 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
+
+  # For memory profiling, For usage visit: https://github.com/SamSaffron/memory_profiler
+  gem 'memory_profiler'
 end
 
 group :test do
