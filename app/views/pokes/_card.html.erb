@@ -2,7 +2,7 @@
 
   <div class="alert alert-light border border-info" role="alert">
 
-    <%= form_with(model: poke, url: poke_path(poke), remote: true, method: :delete, class: 'form mb-3') do |form| %>
+    <%= form_with(model: poke, url: team_poke_path(@team, poke), remote: true, method: :delete, class: 'form mb-3') do |form| %>
       <div class="input-group input-group-sm">
         <div class="input-group-prepend">
           <span class="input-group-text"><strong><%= poke.id %></strong></span>
@@ -18,7 +18,7 @@
       </div>
     <% end unless poke.new_record? %>
 
-    <%= form_with(model: poke, url: (poke.new_record? ? account_pokes_path(account) : poke_path(poke)), remote: true, class: "form") do |form| %>
+    <%= form_with(model: poke, url: (poke.new_record? ? team_pokes_path(@team) : team_poke_path(@team, poke)), remote: true, class: "form") do |form| %>
       <div class="input-group input-group-sm mb-3">
         <div class="input-group-prepend">
           <span class="input-group-text">Cron expression</span>

@@ -13,9 +13,12 @@ Month          Yes          1-12 or JAN-DEC   * / , -
 Day of week    Yes          0-6 or SUN-SAT    * / , - L #
 Year           No           1970–2099         * / , -
 EOF
+
   CRON_FIELDS = {cron_seconds: '1', cron_minutes: '*', cron_hours: '*', cron_day_of_month: '*', cron_month: '*', cron_day_of_week: '*', cron_year: '*'}
   RESPONSE = 'RESPONSE'
   EXCEPTION = 'EXCEPTION'
+
+  # --------- Module inclusion ---------------------------------------------
 
   # --------- Stored attributes --------------------------------------------
   store :other_attributes,
@@ -23,7 +26,7 @@ EOF
         coder: JSON
 
   # --------- Associations -------------------------------------------------
-  belongs_to :account, inverse_of: :pokes
+  belongs_to :team, inverse_of: :pokes
 
   # --------- Validations --------------------------------------------------
   validates :frequency, presence: true
@@ -45,7 +48,9 @@ EOF
   before_validation :try_populating_validating_uuid
   before_validation :try_trimming_latest_responses
 
+  before_save :allow_for_team_leaders_only
   after_save :refresh_crontab_file
+  before_destroy :allow_for_team_leaders_only
   after_destroy :refresh_crontab_file
 
   def refresh_crontab_file
@@ -99,6 +104,15 @@ EOF
   #Only persist last 20 responses
   def try_trimming_latest_responses(last_n_responses = 20)
     self.latest_responses = self.latest_responses[0...last_n_responses]
+  end
+
+  def allow_for_team_leaders_only
+    _team = RequestInfo.current_user.teams.where(id: self.team_id).take
+    if _team.present? and _team.team_leaders.include?(RequestInfo.current_user)
+    else
+      self.errors.add(:base, "not accessible for the operation. Only team leaders are allowed for create, update & delete operation.")
+      throw(:abort)
+    end
   end
 
 end

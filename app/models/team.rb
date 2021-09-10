@@ -1,8 +1,7 @@
 class Team < ApplicationRecord
 
   # --------- Associations -------------------------------------------------
-  has_many :accounts, inverse_of: :team
-  has_many :pokes, through: :accounts
+  has_many :pokes, inverse_of: :team, dependent: :destroy
 
   has_many :memberships, inverse_of: :team, dependent: :destroy
   has_many :team_members, -> {distinct}, through: :memberships, source: :user

@@ -1,13 +1,18 @@
 class PokesController < ApplicationController
 
+  # --------- Module Inclusion ---------------------------------------------
+  include RedirectOnInaccessibleConcern
+
   # --------- Filters ------------------------------------------------------
+  before_action :fetch_team
   before_action :fetch_poke, only: [:update, :destroy]
 
-  def create
-    @account = current_user.accounts.where(id: params[:account_id]).take
+  def index
+  end
 
-    _notice = if @account
-                @poke = @account.pokes.new(poke_params)
+  def create
+    _notice = if @team
+                @poke = @team.pokes.new(poke_params)
                 if @poke.save
                   @poke.do(true)
                   "Poke created successfully."
@@ -15,7 +20,7 @@ class PokesController < ApplicationController
                   "Failed to create poke as #{@poke.errors.full_messages.to_sentence}"
                 end
               else
-                redirect_on_inaccessible_poke(_message = "Account doesn't exist or is not accessible for the operation.") and return
+                redirect_on_inaccessible_poke(_message = "Team doesn't exist or is not accessible for the operation.") and return
               end
 
     flash[:notice] = flash.now[:notice] = _notice if _notice
@@ -33,9 +38,11 @@ class PokesController < ApplicationController
   end
 
   def destroy
+    @success = true
     _notice = if @poke.destroy
                 "Poke deleted successfully."
               else
+                @success = false
                 "Failed to delete poke as #{@poke.errors.full_messages.to_sentence}"
               end
 
@@ -49,19 +56,13 @@ class PokesController < ApplicationController
   end
 
   def fetch_poke
-    return if (@poke = current_user.pokes_from_teams.where(id: params[:id]).take)
+    return if (@poke = Poke.where(id: params[:id]).take)
     redirect_on_inaccessible_poke
   end
 
-  def redirect_on_inaccessible_poke(_message = "Either poke doesn't exist or is not accessible for the operation.")
-    _redirect_to_path = accounts_path
-
-    if request.xhr?
-      flash[:notice] = _message
-      render js: "window.location = '#{_redirect_to_path}'"
-    else
-      redirect_to(_redirect_to_path, notice: _message)
-    end
+  def fetch_team
+    return if (@team = current_user.teams.where(id: params[:team_id]).take)
+    redirect_on_inaccessible_team
   end
 
 end

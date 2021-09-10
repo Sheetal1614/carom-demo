@@ -1,0 +1,8 @@
+<%= render(partial: 'pokes/card', locals: {team: @team, poke: @team.pokes.new}) %>
+<% @team.pokes.reload.each do |poke| %>
+  <%= render(partial: 'pokes/card', locals: {poke: poke}) %>
+<% end %>
+
+<script type="text/javascript">
+    latestResponsesToggle();
+</script>

@@ -17,12 +17,6 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :accounts, only: [:index, :create, :show] do
-    resources :pokes, only: [:new, :create]
-  end
-
-  resources :pokes, only: [:update, :destroy]
-
   resources :documents, only: [:index]
 
   resources :teams, only: [] do
@@ -30,21 +24,19 @@ Rails.application.routes.draw do
       get :members
       post :members
 
-      get :accounts
       post :toggle_team_leader
       delete :remove_member
     end
+    resources :pokes
   end
 
-  get 'under_grounds', to: 'under_grounds#accounts'
+  get 'under_grounds', to: 'under_grounds#teams'
   resources :under_grounds, only: [] do
     collection do
-      get :accounts
       get :teams
       get :application_admins
       get :miscellaneous
 
-      post :account
       post :teams
       post :application_admins
       post :miscellaneous

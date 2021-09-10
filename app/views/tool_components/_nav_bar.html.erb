@@ -5,11 +5,16 @@
   <% end %>
   <%
     menu_items = []
-    menu_items << {label: 'Accounts', uri: accounts_path}
-    menu_items << {label: 'Team', uri: members_team_path(current_user.teams.first)} if current_user
+    if current_user
+      _team = current_user.teams.first
+      if current_user.teams.exists?
+        menu_items << {label: 'Team', uri: members_team_path(_team)}
+        menu_items << {label: 'Pokes', uri: team_pokes_path(_team)}
+      end
 
-    if current_user and current_user.application_admin?
-      menu_items << {label: 'Under grounds', uri: under_grounds_path}
+      if current_user.application_admin?
+        menu_items << {label: 'Under grounds', uri: under_grounds_path}
+      end
     end
 
     menu_items << {label: 'Documents', uri: documents_path}

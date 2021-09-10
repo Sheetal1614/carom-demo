@@ -8,10 +8,10 @@ class DocumentsController < ApplicationController
   def index
     @apis_listing = {
         'Step 01' => <<EOF,
-Create a new account (after signup).
+Ask application admin for creating a new team (after signup).
 EOF
         'Step 02' => <<EOF,
-Update account details, configure cron expression and url.
+Update team details, configure cron expression and url.
 
 Cron expression hint:
 #{Poke::CRON_HELP}

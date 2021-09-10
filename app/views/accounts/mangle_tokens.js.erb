@@ -1,5 +1,0 @@
-<%if @account %>
-$('#account_card_<%= @account.id %>').replaceWith('<%=j(render(partial: 'accounts/card', locals: {account: @account})) %>');
-<%else %>
-alert("Unable to find the account.")
-<%end %>

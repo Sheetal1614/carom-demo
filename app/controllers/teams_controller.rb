@@ -1,7 +1,10 @@
 class TeamsController < ApplicationController
 
+  # --------- Module Inclusion ---------------------------------------------
+  include RedirectOnInaccessibleConcern
+
   # --------- Filters ------------------------------------------------------
-  before_action :fetch_team, only: [:members, :accounts, :search_particles, :remove_search_particle]
+  before_action :fetch_team, only: [:members]
   before_action :fetch_leading_team, only: [:toggle_team_leader, :remove_member]
 
   def members
@@ -30,9 +33,6 @@ class TeamsController < ApplicationController
         end
       end
     end
-  end
-
-  def accounts
   end
 
   def toggle_team_leader
@@ -87,33 +87,13 @@ class TeamsController < ApplicationController
   private
 
   def fetch_team
-    if (@team = current_user.teams.where(id: params[:id]).take)
-    else
-      redirect_on_inaccessible_team
-    end
+    return if (@team = current_user.teams.where(id: params[:id]).take)
+    redirect_on_inaccessible_team
   end
 
   def fetch_leading_team
-    if (@team = current_user.leading_teams.where(id: params[:id]).take)
-    else
-      redirect_on_inaccessible_team
-    end
-  end
-
-  def redirect_on_inaccessible_team
-    _message = "Either team doesn't exist or is not accessible for the operation."
-    _redirect_to_path = if current_user.teams.exists?
-                          members_team_path(current_user.teams.first)
-                        else
-                          accounts_path
-                        end
-
-    if request.xhr?
-      flash[:notice] = _message
-      render js: "window.location = '#{_redirect_to_path}'"
-    else
-      redirect_to(_redirect_to_path, notice: _message)
-    end
+    return if (@team = current_user.leading_teams.where(id: params[:id]).take)
+    redirect_on_inaccessible_team
   end
 
 end

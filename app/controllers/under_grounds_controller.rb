@@ -5,23 +5,8 @@ class UnderGroundsController < ApplicationController
 
   # --------- Filters ------------------------------------------------------
   before_action :restricted_to_application_admin_only
-  before_action :fetch_account, only: [:account]
 
   # --------- Actions ------------------------------------------------------
-  def accounts
-    @accounts = Account.order('id desc').all
-  end
-
-  def account
-    if @account
-      flash.now[:notice] = if @account.destroy
-                             "Removed account '#{@account.name}' successfully."
-                           else
-                             "Failed to remove account. Please get in touch with development team to report."
-                           end
-    end
-  end
-
   def teams
     return if request.method == 'GET'
 
@@ -145,10 +130,6 @@ class UnderGroundsController < ApplicationController
   end
 
   private
-
-  def fetch_account
-    @account = Account.where(id: params[:account]).take
-  end
 
   def team_params
     params.require(:team).permit(:name, :email, :password, :password_confirmation)

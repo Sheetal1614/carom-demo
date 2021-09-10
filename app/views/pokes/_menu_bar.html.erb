@@ -1,15 +1,14 @@
 <%
   ug_menu_items = []
-  ug_menu_items << {label: 'Show', url: account_path(@account), match: {controller: 'accounts', action: 'show'}}
-  #ug_menu_items << {label: 'Accounts', url: accounts_team_path(@team), match: {controller: 'teams', action: 'accounts'}}
+  ug_menu_items << {label: 'Pokes', url: team_pokes_path(@team), match: {controller: 'pokes', action: 'index'}}
+  ug_menu_items << {label: 'Members', url: members_team_path(@team), match: {controller: 'teams', action: 'members'}}
 
+  other_teams = current_user.teams.where.not(id: @team.id)
+  if other_teams.exists?
+    ug_menu_items << {type: :separator, label: 'Other team\'s pokes'}
 
-  other_accounts = current_user.accounts.where.not(id: @account.id)
-  if other_accounts.exists?
-    ug_menu_items << {type: :separator, label: 'Other accounts'}
-
-    other_accounts.each do |account|
-      ug_menu_items << {label: "Account: #{account.name}", url: account_path(account)}
+    other_teams.each do |team|
+      ug_menu_items << {label: "Team: #{team.name}", url: team_pokes_path(team)}
     end
   end
 %>

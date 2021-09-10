@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col-12"><h4><%= "Account: #{@account.name} (#{@account.id})" %></h4>
+  <div class="col-12"><h4>Team: <%=@team.name %></h4>
     <hr/>
   </div>
 </div>
@@ -13,6 +13,6 @@
     </div>
   </div>
   <div class="col-3">
-    <%= render(partial: 'accounts/menu_bar') %>
+    <%= render(partial: 'pokes/menu_bar') %>
   </div>
 </div>

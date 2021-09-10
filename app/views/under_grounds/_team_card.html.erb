@@ -23,14 +23,6 @@
               <% end %>
             </div>
           </div>
-          <div class="row border-bottom">
-            <div class="col-3 text-right">Accounts:</div>
-            <div class="col-9">
-              <% team.accounts.each do |account| %>
-                <li><%= account.name %></li>
-              <% end %>
-            </div>
-          </div>
         </div>
         <div class="col-12 text-right">
           <%= link_to('Delete', teams_under_grounds_path(team_id: team, action_2_perform: :delete), method: :post,
