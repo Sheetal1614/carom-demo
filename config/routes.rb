@@ -19,6 +19,12 @@ Rails.application.routes.draw do
 
   resources :documents, only: [:index]
 
+  resources :users, only: [:update] do
+    collection do
+      get :profile
+    end
+  end
+
   resources :teams, only: [] do
     member do
       get :members

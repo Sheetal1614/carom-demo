@@ -18,7 +18,7 @@
     end
 
     menu_items << {label: 'Documents', uri: documents_path}
-    menu_items << {label: "<span class='navbar-text'>Welcome #{current_user.name}. #{link_to('Log out', session_path, method: :delete, data: {confirm: 'Are you sure?'})}</span>"} if current_user
+    menu_items << {label: "<span class='navbar-text'>Welcome #{link_to(current_user.name, profile_users_path)}. #{link_to('Log out', session_path, method: :delete, data: {confirm: 'Are you sure?'})}</span>"} if current_user
   %>
 
   <ul class="nav justify-content-end">
