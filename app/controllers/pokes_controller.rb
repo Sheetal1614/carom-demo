@@ -54,7 +54,7 @@ class PokesController < ApplicationController
   end
 
   def fetch_poke
-    return if (@poke = current_user.pokes_from_teams.where(id: params[:id]).take)
+    return if (@poke = current_user.accessible_pokes.where(id: params[:id]).take)
     redirect_on_inaccessible_poke
   end
 

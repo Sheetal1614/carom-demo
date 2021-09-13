@@ -10,7 +10,7 @@ class User < ApplicationRecord
   # --------- Associations -------------------------------------------------
   has_many :memberships, inverse_of: :user, dependent: :destroy
   has_many :teams, through: :memberships
-  has_many :pokes_from_teams, through: :teams, source: :pokes
+  has_many :accessible_pokes, through: :teams, source: :pokes
 
   has_many :leading_memberships, -> {where(kind: Membership::MT_TEAM_LEADER)}, class_name: 'Membership', dependent: :destroy
   has_many :leading_teams, through: :leading_memberships, source: :team
@@ -34,10 +34,6 @@ class User < ApplicationRecord
 
   def email_with_name
     "#{self.name} <#{self.email}>"
-  end
-
-  def brief
-    attributes.select {|k| %w(id fmno email name created_at updated_at).include?(k)} rescue nil
   end
 
   private
