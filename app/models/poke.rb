@@ -34,7 +34,6 @@ EOF
             format: {with: /\Ahttps?:\/\/(.*\.intranet\.mckinsey\.com|[\w]{1,}|\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(:\d+)?(\S*)\z/i,
                      message: 'should be valid McKinsey intranet(or host or ip address with/out port) url starting with http/https.'}
   validates :validating_uuid, presence: true
-  validate :allow_for_team_leaders_only
 
   # --------- Callbacks ----------------------------------------------------
   after_initialize do
@@ -49,7 +48,9 @@ EOF
   before_validation :try_populating_validating_uuid
   before_validation :try_trimming_latest_responses
 
+  before_save :allow_for_team_leaders_only
   after_save :refresh_crontab_file
+
   before_destroy :allow_for_team_leaders_only
   after_destroy :refresh_crontab_file
 
@@ -110,11 +111,10 @@ EOF
   end
 
   def allow_for_team_leaders_only
-    _team = RequestInfo.current_user.teams.where(id: self.team_id).take rescue nil
-    if _team.present? and _team.team_leaders.include?(RequestInfo.current_user)
+    if _current_user = RequestInfo.current_user and _team = _current_user.teams.where(id: self.team_id).take and _team.team_leaders.include?(RequestInfo.current_user)
     else
       self.errors.add(:base, "not accessible for the operation. Only team leaders are allowed for create, update & delete operation.")
-      throw(:abort) if errors.present?
+      throw(:abort)
     end
   end
 
