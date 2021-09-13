@@ -24,11 +24,10 @@ class ApplicationController < ActionController::Base
   private
 
   def restricted_to_logged_in_user_only
-    redirect_to(root_path, notice: 'Restricted access. Please login') unless current_user
-    # return if current_team
-    #
-    # cookies[:redirect_to_after_login] = request.path
-    # redirect_to(root_path, notice: 'Restricted access. Please login')
+    return if current_user
+
+    cookies[:redirect_to_after_login] = request.path
+    redirect_to(root_path, notice: 'Restricted access. Please login')
   end
 
   def populate_current_user

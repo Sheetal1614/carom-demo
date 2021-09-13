@@ -132,7 +132,7 @@ class UnderGroundsController < ApplicationController
   private
 
   def team_params
-    params.require(:team).permit(:name, :email, :password, :password_confirmation)
+    params.require(:team).permit(:name)
   end
 
   def restricted_to_application_admin_only

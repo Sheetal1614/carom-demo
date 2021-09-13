@@ -110,11 +110,11 @@ EOF
   end
 
   def allow_for_team_leaders_only
-    _team = RequestInfo.current_user.teams.where(id: self.team_id).take
+    _team = RequestInfo.current_user.teams.where(id: self.team_id).take rescue nil
     if _team.present? and _team.team_leaders.include?(RequestInfo.current_user)
     else
       self.errors.add(:base, "not accessible for the operation. Only team leaders are allowed for create, update & delete operation.")
-      throw(:abort)
+      throw(:abort) if errors.present?
     end
   end
 

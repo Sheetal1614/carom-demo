@@ -11,7 +11,7 @@ class DocumentsController < ApplicationController
 Ask application admin for creating a new team (after signup).
 EOF
         'Step 02' => <<EOF,
-Update team details, configure cron expression and url.
+Update team details, only teamleader can configure cron expression and url.
 
 Cron expression hint:
 #{Poke::CRON_HELP}
