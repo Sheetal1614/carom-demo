@@ -34,6 +34,7 @@ EOF
             format: {with: /\Ahttps?:\/\/(.*\.intranet\.mckinsey\.com|[\w]{1,}|\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(:\d+)?(\S*)\z/i,
                      message: 'should be valid McKinsey intranet(or host or ip address with/out port) url starting with http/https.'}
   validates :validating_uuid, presence: true
+  validate :allow_for_team_leaders_only
 
   # --------- Callbacks ----------------------------------------------------
   after_initialize do
@@ -48,7 +49,6 @@ EOF
   before_validation :try_populating_validating_uuid
   before_validation :try_trimming_latest_responses
 
-  before_save :allow_for_team_leaders_only
   after_save :refresh_crontab_file
   before_destroy :allow_for_team_leaders_only
   after_destroy :refresh_crontab_file
