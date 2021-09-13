@@ -14,11 +14,36 @@ services:
 
   memcache:
     image: "artifacts.intranet.mckinsey.com/gold-images/memcached:1.5"
+    user: "1001"
+    command: [ "memcached", "-m", "1024m" ]
+
+  holy-basil:
+    depends_on:
+      - "db"
+      - "memcache"
+    build: ../MDE_ProposeToWin-holy_basil/.
+    ports:
+      - "3008:3000"
+    environment:
+      HOLY_BASIL_DATABASE_USERNAME: secret
+      HOLY_BASIL_DATABASE_PASSWORD: secret
+      HOLY_BASIL_DATABASE_NAME: secret
+      HOLY_BASIL_DATABASE_PORT: 3306
+      HOLY_BASIL_DATABASE_HOST: db
+      API_PORTAL_HOST: secret
+      API_PORTAL_CLIENT_ID: secret
+      API_PORTAL_CLIENT_SECRET: secret
+      RAILS_ENV: development
+      RAILS_MAX_THREADS: 20
+      CACHE_HOST: memcache
+    volumes:
+      - "../MDE_ProposeToWin-holy_basil/.:/app"
 
   carom:
     depends_on:
       - "db"
       - "memcache"
+      - "holy-basil"
     build: .
     ports:
       - "3006:3000"
@@ -28,10 +53,10 @@ services:
       CAROM_DATABASE_NAME: secret
       CAROM_DATABASE_PORT: 3306
       CAROM_DATABASE_HOST: db
-      HOLY_BASIL_HOST:
-      CAROM_HOLY_BASIL_REFRESH_TOKEN:
+      HOLY_BASIL_HOST: http://holy-basil:3000
+      CAROM_HOLY_BASIL_REFRESH_TOKEN: secret
       FENNEL_HOST: http://fennel:3000
-      CAROM_FENNEL_REFRESH_TOKEN:
+      CAROM_FENNEL_REFRESH_TOKEN: secret
       RAILS_ENV: development
       RAILS_MAX_THREADS: 5
       CACHE_HOST: memcache
