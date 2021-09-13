@@ -38,11 +38,9 @@ class PokesController < ApplicationController
   end
 
   def destroy
-    @success = true
     _notice = if @poke.destroy
                 "Poke deleted successfully."
               else
-                @success = false
                 "Failed to delete poke as #{@poke.errors.full_messages.to_sentence}"
               end
 
@@ -56,7 +54,7 @@ class PokesController < ApplicationController
   end
 
   def fetch_poke
-    return if (@poke = Poke.where(id: params[:id]).take)
+    return if (@poke = current_user.pokes_from_teams.where(id: params[:id]).take)
     redirect_on_inaccessible_poke
   end
 

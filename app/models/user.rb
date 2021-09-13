@@ -10,6 +10,7 @@ class User < ApplicationRecord
   # --------- Associations -------------------------------------------------
   has_many :memberships, inverse_of: :user, dependent: :destroy
   has_many :teams, through: :memberships
+  has_many :pokes_from_teams, through: :teams, source: :pokes
 
   has_many :leading_memberships, -> {where(kind: Membership::MT_TEAM_LEADER)}, class_name: 'Membership', dependent: :destroy
   has_many :leading_teams, through: :leading_memberships, source: :team
