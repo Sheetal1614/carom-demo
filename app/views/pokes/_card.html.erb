@@ -13,7 +13,7 @@
         <input type="text" class="form-control bg-transparent" value="<%= poke.validating_uuid %>" readonly="readonly">
         <div class="input-group-append">
           <a href="javascript:void(0);" class="btn btn-outline-info latest_response"><%= pluralize(poke.latest_responses.size, 'Response') %></a>
-          <%= form.submit "Delete", class: "btn btn-outline-danger", data: { disable_with: 'Processing...', confirm: 'Are you sure?' } %>
+          <%= form.submit "Delete", class: "btn btn-outline-danger", data: { disable_with: 'Processing...', confirm: 'Are you sure?' } if @team.team_leaders.include?(current_user) %>
         </div>
       </div>
     <% end unless poke.new_record? %>
@@ -40,7 +40,7 @@
         </div>
         <%= form.text_field :url, class: "form-control form-control-sm" %>
         <div class="input-group-append">
-          <%= form.submit (poke.new_record? ? "Create" : "Update & Refresh"), class: "btn btn-primary", data: { disable_with: 'Processing...' } %>
+          <%= form.submit (poke.new_record? ? "Create" : "Update & Refresh"), class: "btn btn-primary", data: { disable_with: 'Processing...' } if @team.team_leaders.include?(current_user) %>
         </div>
       </div>
     <% end %>
