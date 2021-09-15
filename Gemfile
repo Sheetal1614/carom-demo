@@ -50,9 +50,6 @@ gem 'ThymeFieldAccommodator', '~> 0.7.3', source: "http://gems.intranet.mckinsey
 # Use select2(jquery based select overload). Ref https://github.com/argerim/select2-rails
 gem "select2-rails"
 
-# For process monitoring # http://godrb.com/
-gem 'god'
-
 # Use Dalli for memcache connect
 gem 'dalli'
 

@@ -18,8 +18,6 @@ EOF
   RESPONSE = 'RESPONSE'
   EXCEPTION = 'EXCEPTION'
 
-  # --------- Module inclusion ---------------------------------------------
-
   # --------- Stored attributes --------------------------------------------
   store :other_attributes,
         accessors: ([:url, :validating_uuid, :latest_responses] + CRON_FIELDS.keys),
