@@ -1,0 +1,9 @@
+<h5>Teams</h5>
+
+<div class="row">
+  <%= render(partial: 'under_grounds/new_team_card') %>
+
+  <% Team.includes(:team_leaders, :team_members).order('updated_at desc').all.each_with_index do |team| %>
+    <%= render(partial: 'under_grounds/team_card', locals: {team: team}) %>
+  <% end %>
+</div>

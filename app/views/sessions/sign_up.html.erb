@@ -1,10 +1,14 @@
 <div class="row justify-content-center align-items-center">
   <div class="col-lg-6">
     <h2>Sign up as new</h2><br/>
-    <%= form_for(@almighty, url: sign_up_path) do |form| %>
+    <%= form_for(@user, url: sign_up_path) do |form| %>
       <div class="form-group">
         <%=form.label :name %>
         <%=form.text_field :name, class: "form-control", placeholder: "Enter name"%>
+      </div>
+      <div class="form-group">
+        <%=form.label :fmno, 'FMNO' %>
+        <%=form.text_field :fmno, class: "form-control", placeholder: "Enter fmno"%>
       </div>
       <div class="form-group">
         <%=form.label :email, 'Email address' %>

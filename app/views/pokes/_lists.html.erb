@@ -1,0 +1,8 @@
+<%= render(partial: 'pokes/card', locals: {team: @team, poke: @team.pokes.new}) if @team.team_leaders.include?(current_user) %>
+<% @team.pokes.reload.order("id desc").each do |poke| %>
+  <%= render(partial: 'pokes/card', locals: {poke: poke}) %>
+<% end %>
+
+<script type="text/javascript">
+    latestResponsesToggle();
+</script>

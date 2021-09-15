@@ -1,3 +1,5 @@
 $('.flash_notice_container').replaceWith('<%=j(render(partial: 'tool_components/flash_notice')) %>');
+<% if @poke.destroy %>
 $('.poke_form_<%= @poke.id %>').remove();
+<% end %>
 latestResponsesToggle();

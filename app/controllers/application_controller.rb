@@ -1,25 +1,22 @@
 class ApplicationController < ActionController::Base
 
+  # --------- Constants ----------------------------------------------------
+  LABEL_SIGNUP_ENABLED = 'signup_enabled'
+
+  # --------- Module inclusions --------------------------------------------
+  include CurrentUserAccessRestriction
+  include RedirectOnInaccessibleConcern
+
   # --------- Filters ------------------------------------------------------
   skip_before_action :verify_authenticity_token
-  before_action :restricted_to_logged_in_almighty_only
-  before_action do
-    Rails.logger.debug "REQUEST_OBJECT (ApplicationController): #{request.inspect}"
-  end
+  before_action :populate_current_user
+  before_action :restricted_to_logged_in_user_only
 
   # --------- Helpers ------------------------------------------------------
-  helper_method :current_almighty
+  helper_method :current_user, :signup_enabled?
 
-  def current_almighty
-    @current_almighty ||= if session[:almighty_id]
-                        Almighty.where(id: session[:almighty_id]).take
-                      end
-  end
-
-  private
-
-  def restricted_to_logged_in_almighty_only
-    redirect_to(root_path, notice: 'Restricted access. Please login') unless current_almighty
+  def signup_enabled?
+    (Rails.cache.read(LABEL_SIGNUP_ENABLED) || false)
   end
 
 end

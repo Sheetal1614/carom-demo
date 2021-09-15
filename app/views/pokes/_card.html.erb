@@ -2,7 +2,7 @@
 
   <div class="alert alert-light border border-info" role="alert">
 
-    <%= form_with(model: poke, url: poke_path(poke), remote: true, method: :delete, class: 'form mb-3') do |form| %>
+    <%= form_with(model: poke, url: team_poke_path(@team, poke), remote: true, method: :delete, class: 'form mb-3') do |form| %>
       <div class="input-group input-group-sm">
         <div class="input-group-prepend">
           <span class="input-group-text"><strong><%= poke.id %></strong></span>
@@ -13,12 +13,12 @@
         <input type="text" class="form-control bg-transparent" value="<%= poke.validating_uuid %>" readonly="readonly">
         <div class="input-group-append">
           <a href="javascript:void(0);" class="btn btn-outline-info latest_response"><%= pluralize(poke.latest_responses.size, 'Response') %></a>
-          <%= form.submit "Delete", class: "btn btn-outline-danger", data: { disable_with: 'Processing...', confirm: 'Are you sure?' } %>
+          <%= form.submit "Delete", class: "btn btn-outline-danger", data: { disable_with: 'Processing...', confirm: 'Are you sure?' } if @team.team_leaders.include?(current_user) %>
         </div>
       </div>
     <% end unless poke.new_record? %>
 
-    <%= form_with(model: poke, url: (poke.new_record? ? account_pokes_path(account) : poke_path(poke)), remote: true, class: "form") do |form| %>
+    <%= form_with(model: poke, url: (poke.new_record? ? team_pokes_path(@team) : team_poke_path(@team, poke)), remote: true, class: "form") do |form| %>
       <div class="input-group input-group-sm mb-3">
         <div class="input-group-prepend">
           <span class="input-group-text">Cron expression</span>
@@ -40,7 +40,7 @@
         </div>
         <%= form.text_field :url, class: "form-control form-control-sm" %>
         <div class="input-group-append">
-          <%= form.submit (poke.new_record? ? "Create" : "Update & Refresh"), class: "btn btn-primary", data: { disable_with: 'Processing...' } %>
+          <%= form.submit (poke.new_record? ? "Create" : "Update & Refresh"), class: "btn btn-primary", data: { disable_with: 'Processing...' } if @team.team_leaders.include?(current_user) %>
         </div>
       </div>
     <% end %>

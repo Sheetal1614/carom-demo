@@ -1,0 +1,13 @@
+<div class="row mb-3 current_crotab_view">
+  <div class="col">
+    <div class="card border-info">
+      <div class="card-body">
+        <h5 class="card-title">Current Crontab view</h5>
+
+        <div class="card-text">
+          <pre><%= File.exist?('carom-crontab') ? File.read('carom-crontab') : 'Cron tab file not available!' %></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

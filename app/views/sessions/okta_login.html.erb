@@ -1,0 +1,65 @@
+<div class="jumbotron">
+  <h1 class="display-4">Okta, in progress...</h1>
+  <p class="lead">We have tried many patches to make SSO work but believe it or not even we have kept fingers
+    crossed.<br/>Hope it works for you.</p>
+  <hr class="my-4">
+  <p>Why don't you grab a coffee in the mean time.</p>
+  <!--<button class="btn btn-primary btn-lg" ng-click="getMe()">Login with OKTA</button> -->
+</div>
+
+<script type="text/javascript">
+    var app = angular.module("myNoteApp", []);
+    app.controller("myNoteCtrl", function ($scope, $window, $http) {
+        $scope.getMe = function () {
+            $http.get("<%=File.join(@fennel_account_detail[:host], '/api/v1/sessions.json') %>", {
+                withCredentials: true,
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer <%=@fennel_account_detail[:access_token] %>"
+                }
+            })
+                .then(function mySuccess(response) {
+                    console.log("FENNEL TOKEN received");
+                    console.log(response);
+
+                    $http.post('<%=okta_login_session_path %>', response.data).then(function (response) {
+                        console.log(response);
+                        console.log(response.data.shift_to);
+                        window.location = response.data.shift_to;
+                    });
+
+                }, function myError(errorResponse) {
+                    console.log(errorResponse);
+
+                    if (errorResponse.status == 403) {
+                        console.log("FENNEL is asking for redirect to OKTA with 403 response code");
+                        console.log(errorResponse.data.redirect_url);
+
+                        var okta_retry = <%=params[:okta_retry].to_i %>;
+                        if (okta_retry <= 5) {
+                            $window.location.href = (errorResponse.data.redirect_url + "?redirect_to=" + encodeURIComponent("<%=okta_login_session_path(okta_retry: (params[:okta_retry].to_i + 1)) %>"));
+                        } else {
+                            alert("Seems we(and Okta) retried enough and failed again, why don't you try other means to login.");
+                            $window.location.href = '<%=login_session_path %>';
+                        }
+                    } else if (errorResponse.status == 401) {
+                        console.log("Fennel is giving 'unauthorized', most probably Fennel's access token is invalid.");
+                        console.log("Asking for renewal");
+                        $http.post('<%=renew_fennel_access_token_session_path %>')
+                            .then(function (response) {
+                                console.log("Renewal complete. Reloading...");
+                                window.location.reload();
+                            }, function someError(errorResponse) {
+                                console.log(errorResponse);
+                                alert("Failed to renew Fennel's access token")
+                            });
+
+                    } else {
+                        alert("Something happened. Report to admin.")
+                    }
+                });
+        };
+
+        $scope.getMe();
+    });
+</script>

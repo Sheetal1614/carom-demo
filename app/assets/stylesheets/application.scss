@@ -3,7 +3,8 @@ $enable-gradients: true;
 @import "bootstrap";
 @import "font-awesome-sprockets";
 @import "font-awesome";
-@import "accounts";
+@import "select2";
+@import "select2-bootstrap";
 @import "documents";
 @import "sessions";
 body {

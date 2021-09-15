@@ -3,15 +3,15 @@
 class DocumentsController < ApplicationController
 
   # --------- Filters ------------------------------------------------------
-  skip_before_action :restricted_to_logged_in_almighty_only
+  skip_before_action :restricted_to_logged_in_user_only
 
   def index
     @apis_listing = {
         'Step 01' => <<EOF,
-Create a new account (after signup).
+Ask application admin for creating a new team (after signup).
 EOF
         'Step 02' => <<EOF,
-Update account details, configure cron expression and url.
+Update team leaders and members. Create a new poke with a cron expression and url (only team leaders can create/update a poke
 
 Cron expression hint:
 #{Poke::CRON_HELP}

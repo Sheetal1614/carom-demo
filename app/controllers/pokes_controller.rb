@@ -1,21 +1,19 @@
 class PokesController < ApplicationController
 
   # --------- Filters ------------------------------------------------------
+  before_action :fetch_team
   before_action :fetch_poke, only: [:update, :destroy]
 
-  def create
-    @account = current_almighty.accounts.where(id: params[:account_id]).take
+  def index
+  end
 
-    _notice = if @account
-                @poke = @account.pokes.new(poke_params)
-                if @poke.save
-                  @poke.do(true)
-                  "Poke created successfully."
-                else
-                  "Failed to create poke as #{@poke.errors.full_messages.to_sentence}"
-                end
+  def create
+    @poke = @team.pokes.new(poke_params)
+    _notice = if @poke.save
+                @poke.do(true)
+                "Poke created successfully."
               else
-                redirect_on_inaccessible_poke(_message = "Account doesn't exist or is not accessible for the operation.") and return
+                "Failed to create poke as #{@poke.errors.full_messages.to_sentence}"
               end
 
     flash[:notice] = flash.now[:notice] = _notice if _notice
@@ -49,19 +47,13 @@ class PokesController < ApplicationController
   end
 
   def fetch_poke
-    return if (@poke = current_almighty.pokes.where(id: params[:id]).take)
+    return if (@poke = current_user.accessible_pokes.where(id: params[:id]).take)
     redirect_on_inaccessible_poke
   end
 
-  def redirect_on_inaccessible_poke(_message = "Either poke doesn't exist or is not accessible for the operation.")
-    _redirect_to_path = accounts_path
-
-    if request.xhr?
-      flash[:notice] = _message
-      render js: "window.location = '#{_redirect_to_path}'"
-    else
-      redirect_to(_redirect_to_path, notice: _message)
-    end
+  def fetch_team
+    return if (@team = current_user.teams.where(id: params[:team_id]).take)
+    redirect_on_inaccessible_team
   end
 
 end

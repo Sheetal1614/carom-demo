@@ -1,0 +1,5 @@
+<%
+     @member = @team.team_members.select('users.*', 'kind').where(id: @member.id).take
+%>
+$('#member_card_<%= @member.id %>').replaceWith('<%=j(render(partial: 'teams/member_card', locals: {member: @member})) %>');
+$('.flash_notice_container').replaceWith('<%=j(render(partial: 'tool_components/flash_notice')) %>');

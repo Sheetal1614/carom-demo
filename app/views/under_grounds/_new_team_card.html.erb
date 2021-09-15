@@ -1,0 +1,44 @@
+<% dom_id = "new_team_card" %>
+<div id='<%= dom_id %>' class="col-12 mb-4">
+  <div class="card">
+    <div class="card-body">
+
+      <div class="row edit_card">
+        <div class="col-12">
+          <h5>Add team</h5>
+          <%= form_with url: teams_under_grounds_path(action_2_perform: :add), method: :post, model: Team.new do |f| %>
+            <div class="row mb-3">
+              <div class="col-4">
+                <%= f.label :name %>
+                <%= f.text_field :name, class: "form-control" %>
+              </div>
+              <div class="col-8">
+                <%= f.label :team_leaders %>
+                <%= select_tag 'fmnos_with_name_and_email[]', '', multiple: true, id: 'fmnos_select2_field', class: 'form-control' %>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 text-right">
+                <%= f.submit nil, class: "btn btn-sm btn-primary" %>
+              </div>
+            </div>
+          <% end %>
+
+          <script type="text/javascript">
+              $('#fmnos_select2_field').select2({
+                  theme: "bootstrap",
+                  placeholder: "Search and select users(members) by name or fmno",
+                  multiple: true,
+                  ajax: {
+                      url: '<%=people_enumerations_path(format: :json, combine_name_email_and_fmno: true) %>',
+                      dataType: 'json'
+                  }
+              });
+          </script>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
