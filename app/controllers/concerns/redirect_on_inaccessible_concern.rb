@@ -1,6 +1,10 @@
 module RedirectOnInaccessibleConcern
   extend ActiveSupport::Concern
 
+  # --------- Constants ----------------------------------------------------
+  MESSAGE_INACCESSIBLE_POKE = "Either poke doesn't exist or is not accessible for the operation."
+  MESSAGE_INACCESSIBLE_TEAM = "Either team doesn't exist or is not accessible for the operation."
+
   included do
   end
 
@@ -9,13 +13,11 @@ module RedirectOnInaccessibleConcern
   end
 
   def redirect_on_inaccessible_poke
-    _message = "Either poke doesn't exist or is not accessible for the operation."
-    redirect_on_inaccessible(_message)
+    redirect_on_inaccessible(MESSAGE_INACCESSIBLE_POKE)
   end
 
   def redirect_on_inaccessible_team
-    _message = "Either team doesn't exist or is not accessible for the operation."
-    redirect_on_inaccessible(_message)
+    redirect_on_inaccessible(MESSAGE_INACCESSIBLE_TEAM)
   end
 
   def redirect_on_inaccessible(_message)

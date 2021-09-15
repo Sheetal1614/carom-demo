@@ -1,8 +1,5 @@
 class PokesController < ApplicationController
 
-  # --------- Module Inclusion ---------------------------------------------
-  include RedirectOnInaccessibleConcern
-
   # --------- Filters ------------------------------------------------------
   before_action :fetch_team
   before_action :fetch_poke, only: [:update, :destroy]
@@ -11,16 +8,12 @@ class PokesController < ApplicationController
   end
 
   def create
-    _notice = if @team
-                @poke = @team.pokes.new(poke_params)
-                if @poke.save
-                  @poke.do(true)
-                  "Poke created successfully."
-                else
-                  "Failed to create poke as #{@poke.errors.full_messages.to_sentence}"
-                end
+    @poke = @team.pokes.new(poke_params)
+    _notice = if @poke.save
+                @poke.do(true)
+                "Poke created successfully."
               else
-                redirect_on_inaccessible_poke(_message = "Team doesn't exist or is not accessible for the operation.") and return
+                "Failed to create poke as #{@poke.errors.full_messages.to_sentence}"
               end
 
     flash[:notice] = flash.now[:notice] = _notice if _notice

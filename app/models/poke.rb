@@ -47,10 +47,9 @@ EOF
   before_validation :try_trimming_latest_responses
 
   before_save :allow_for_team_leaders_only
-  after_save :refresh_crontab_file
-
   before_destroy :allow_for_team_leaders_only
-  after_destroy :refresh_crontab_file
+
+  after_commit :refresh_crontab_file, on: [:create, :update, :destroy]
 
   def refresh_crontab_file
     `rake carom:provision_cron`
@@ -72,7 +71,7 @@ EOF
       rescue Exception => e
         (self.latest_responses ||= []).prepend([Time.now, EXCEPTION, e.message, e.backtrace])
       end
-      self.save
+      self.update_columns(other_attributes: self.other_attributes)
 
       self.update_columns(live: false) unless doable?
     end
@@ -109,11 +108,13 @@ EOF
   end
 
   def allow_for_team_leaders_only
-    if _current_user = RequestInfo.current_user and _team = _current_user.teams.where(id: self.team_id).take and _team.team_leaders.include?(RequestInfo.current_user)
-    else
-      self.errors.add(:base, "not accessible for the operation. Only team leaders are allowed for create, update & delete operation.")
-      throw(:abort)
-    end
+    # return if RequestInfo.current_user and RequestInfo.current_user.leading_pokes.where(id: self.id).exists?
+    # if _current_user = RequestInfo.current_user and _team = _current_user.teams.where(id: self.team_id).take and _team.team_leaders.include?(RequestInfo.current_user)
+    # else
+    return if RequestInfo.current_user and self.team.team_leaders.include?(RequestInfo.current_user)
+
+    self.errors.add(:base, "not accessible for the operation. Only team leaders are allowed for create, update & delete operations.")
+    throw(:abort)
   end
 
 end

@@ -1,8 +1,5 @@
 class TeamsController < ApplicationController
 
-  # --------- Module Inclusion ---------------------------------------------
-  include RedirectOnInaccessibleConcern
-
   # --------- Filters ------------------------------------------------------
   before_action :fetch_team, only: [:members]
   before_action :fetch_leading_team, only: [:toggle_team_leader, :remove_member]
@@ -10,7 +7,7 @@ class TeamsController < ApplicationController
   def members
     if request.xhr?
       unless current_user.leading_teams.where(id: params[:id]).take
-        flash[:notice] = "Either team doesn't exist or is not accessible for the operation."
+        flash[:notice] = RedirectOnInaccessibleConcern::MESSAGE_INACCESSIBLE_TEAM
         return
       end
 

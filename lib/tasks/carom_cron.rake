@@ -15,6 +15,7 @@ namespace :carom do
         puts `god restart supercronic-workers`
     end
 
+    #TODO: In future will need to implement thread if pokes grow big in numbers.
     task :poke, [:frequency] => [:environment] do |t, args|
         Rails.logger.debug "Frequency is #{args.frequency} @ #{Time.now}"
         Poke.where(frequency: args.frequency).where(live: true).each { |poke| poke.do }
