@@ -71,6 +71,9 @@ EOF
       rescue Exception => e
         (self.latest_responses ||= []).prepend([Time.now, EXCEPTION, e.message, e.backtrace])
       end
+
+      try_trimming_latest_responses(25)
+
       self.update_columns(other_attributes: self.other_attributes)
 
       self.update_columns(live: false) unless doable?
