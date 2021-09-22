@@ -104,16 +104,6 @@ Rails.application.configure do
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.delivery_method = :smtp
 
-  #For external API's
-  config.api_connector = {
-      host: "http://api.mckinsey.com",
-      name: "CaromProduction",
-      client_id: "G86DtsII59YPtkm0X70X8e3XqkxeAjS4",
-      client_secret: "3pOgFAZnc58iEmsb",
-      grant_type: "client_credentials",
-      access_token: "some-token-in-uuid"
-  }
-
   config.holy_basil_connector = {
       host: ENV.fetch("HOLY_BASIL_HOST"),
       name: "CaromProd",

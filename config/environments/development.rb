@@ -65,16 +65,6 @@ Rails.application.configure do
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
-  #For external API's
-  config.api_connector = {
-      host: "http://dev-api.mckinsey.com",
-      name: "CaromLocal",
-      client_id: "OZlCJHmWA9s0MGMGFprRRIM59QEUc91Z",
-      client_secret: "JmoRQk2yl5sKv2QX",
-      grant_type: "client_credentials",
-      access_token: "some-token-in-uuid"
-  }
-
   config.holy_basil_connector = {
       host: ENV.fetch("HOLY_BASIL_HOST"),
       name: "CaromLocal",
