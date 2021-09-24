@@ -34,10 +34,6 @@ class EnumerationsController < ApplicationController
         @options_set
       end
     end
-
-    render(action: :index)
   end
-
-  private
 
 end

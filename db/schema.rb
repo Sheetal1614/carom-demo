@@ -12,6 +12,23 @@
 
 ActiveRecord::Schema.define(version: 2021_09_08_121918) do
 
+  create_table "accounts", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "almighty_id"
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["almighty_id"], name: "index_accounts_on_almighty_id"
+  end
+
+  create_table "almighties", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "name"
+    t.string "email", null: false
+    t.string "password_digest"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["email"], name: "index_almighties_on_email", unique: true
+  end
+
   create_table "memberships", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "team_id"
     t.bigint "user_id"
@@ -23,21 +40,15 @@ ActiveRecord::Schema.define(version: 2021_09_08_121918) do
   end
 
   create_table "pokes", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.bigint "team_id"
+    t.bigint "account_id"
     t.boolean "live", default: false
     t.string "frequency"
     t.text "other_attributes", size: :long
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_id"], name: "index_pokes_on_account_id"
     t.index ["frequency"], name: "index_pokes_on_frequency"
     t.index ["live"], name: "index_pokes_on_live"
-    t.index ["team_id"], name: "index_pokes_on_team_id"
-  end
-
-  create_table "teams", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.string "name"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "users", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
