@@ -90,20 +90,6 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
-  config.action_mailer.default_options = {
-      from: 'no-reply-carom@mckinsey.com',
-      charset: 'utf-8',
-      mime_version: '1.0',
-      implicit_parts_order: ['text/html', 'text/plain']
-  }
-  config.action_mailer.smtp_settings = {
-      address: 'mailhub.mckinsey.com',
-      domain: 'mailhub.mckinsey.com',
-      port: 25
-  }
-  config.action_mailer.raise_delivery_errors = true
-  config.action_mailer.delivery_method = :smtp
-
   config.holy_basil_connector = {
       host: ENV.fetch("HOLY_BASIL_HOST"),
       name: "CaromQA",

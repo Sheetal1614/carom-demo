@@ -20,6 +20,28 @@ module Carom
       end
     end
 
+    # Ignore bad email addresses and do not raise email delivery errors.
+    # Set this to true and configure the email server for immediate delivery to raise delivery errors.
+    config.action_mailer.raise_delivery_errors = true
+    config.action_mailer.default_options = {
+        from: 'Scheduler <opportunity@mckinsey.com>',
+        no_reply: 'Scheduler <no-reply@mckinsey.com>',
+        charset: 'utf-8',
+        mime_version: '1.0',
+        implicit_parts_order: ['text/html', 'text/plain']
+    }
+
+    config.action_mailer.delivery_method = :smtp
+    config.action_mailer.smtp_settings = {
+        address: 'smtp.mckinsey.com',
+        domain: 'smtp.mckinsey.com',
+        port: 587,
+        authentication: :login,
+        enable_starttls_auto: true,
+        user_name: ENV['OPPORTUNITY_MAILER_USERNAME'],
+        password: ENV['OPPORTUNITY_MAILER_PASSWORD']
+    }
+
     # Exception notification configuration
     config.middleware.use ExceptionNotification::Rack, email: {
         email_prefix: "[#{Rails.env.capitalize}][Carom Exception]",
