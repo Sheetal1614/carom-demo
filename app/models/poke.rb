@@ -51,7 +51,6 @@ EOF
   before_destroy :allow_for_team_leaders_only
 
   after_commit :refresh_crontab_file, on: [:create, :update, :destroy]
-  after_commit :notify_team_members_for_inactive_poke, on: [:create, :update], unless: :doable?
 
   def refresh_crontab_file
     `rake carom:provision_cron`
@@ -71,7 +70,7 @@ EOF
 
         (self.latest_responses ||= []).prepend([Time.now, RESPONSE, _response.headers["validating-uuid"], _response.status, _response.body])
       rescue Exception => e
-
+        NotificationMailer.notify_team_members_for_inactive_poke(self).deliver_later if (self.live == false) and self.saved_change_to_live?
         (self.latest_responses ||= []).prepend([Time.now, EXCEPTION, e.message, e.backtrace])
       end
 
@@ -121,10 +120,6 @@ EOF
 
     self.errors.add(:base, "not accessible for the operation. Only team leaders are allowed for create, update & delete operations.")
     throw(:abort)
-  end
-
-  def notify_team_members_for_inactive_poke
-    NotificationMailer.notify_team_members_for_inactive_poke(self).deliver_later
   end
 
 end
