@@ -14,7 +14,7 @@ Day of week    Yes          0-6 or SUN-SAT    * / , - L #
 Year           No           1970–2099         * / , -
 EOF
 
-  CRON_FIELDS = {cron_seconds: '1', cron_minutes: '*', cron_hours: '*', cron_day_of_month: '*', cron_month: '*', cron_day_of_week: '*', cron_year: '*'}
+  CRON_FIELDS = {cron_seconds: '0', cron_minutes: '*', cron_hours: '*', cron_day_of_month: '*', cron_month: '*', cron_day_of_week: '*', cron_year: '*'}
   RESPONSE = 'RESPONSE'
   EXCEPTION = 'EXCEPTION'
 
