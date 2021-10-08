@@ -126,6 +126,9 @@ GEM
     concurrent-ruby (1.1.9)
     connection_pool (2.2.5)
     crass (1.0.6)
+    cronex (0.11.1)
+      tzinfo
+      unicode
     dalli (2.7.11)
     dante (0.2.0)
     date_validator (0.12.0)
@@ -177,7 +180,7 @@ GEM
     json (2.5.1)
     jsonpath (1.1.0)
       multi_json
-    jwt (2.2.3)
+    jwt (2.3.0)
     kaminari (1.2.1)
       activesupport (>= 4.1.0)
       kaminari-actionview (= 1.2.1)
@@ -310,6 +313,7 @@ GEM
     turbolinks-source (5.2.0)
     tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
+    unicode (0.4.4.4)
     vegas (0.1.11)
       rack (>= 1.0.0)
     web-console (4.1.0)
@@ -344,6 +348,7 @@ DEPENDENCIES
   capybara (>= 2.15)
   caxlsx
   connection_pool
+  cronex
   dalli
   date_validator
   exception_notification

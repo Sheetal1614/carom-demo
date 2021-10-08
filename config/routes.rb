@@ -17,7 +17,11 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :documents, only: [:index]
+  resources :documents, only: [:index] do
+    collection do
+      post :cron_expression_description
+    end
+  end
 
   resources :users, only: [:update] do
     collection do

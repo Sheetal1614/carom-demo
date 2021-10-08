@@ -5,4 +5,8 @@
 
 <script type="text/javascript">
     latestResponsesToggle();
+    readCronExpression();
+    $('form').each(function (i, e) {
+        $(e).find('.cron_exp_field:last').trigger('input')
+    })
 </script>

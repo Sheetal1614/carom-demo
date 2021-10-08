@@ -22,6 +22,10 @@ EOF
     }
   end
 
+  def cron_expression_description
+    @description = (Cronex::ExpressionDescriptor.new(params[:cron_expression]).description rescue "that's gibberish")
+  end
+
   def test_callback
     Rails.logger.debug("========#{request.headers["HTTP_VALIDATING_UUID"].inspect}")
     Rails.logger.debug("========#{params.inspect}")

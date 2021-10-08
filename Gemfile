@@ -53,6 +53,9 @@ gem "select2-rails"
 # Use Dalli for memcache connect
 gem 'dalli'
 
+# For converting cron expressions into human readable strings
+gem 'cronex'
+
 # Use for multi-threading in Dalli connection
 gem 'connection_pool'
 
