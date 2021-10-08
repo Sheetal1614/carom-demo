@@ -22,8 +22,15 @@ body {
     font-size: 0.80em;
     font-family: monospace;
     border-bottom: 1px dotted #eee;
+
     &:last-child {
       border-bottom: none;
     }
+  }
+}
+
+.cron_exp_label {
+  small {
+    font-size: 70%;
   }
 }
