@@ -1,0 +1,9 @@
+<p>Hi <%= @poke.team.name %>,</p>
+
+<p>Configured poke URL became '<%=Poke::INACTIVE %>'.</p>
+<p>Configured poke URL: <pre><%= @poke.url %></pre></p>
+<p>You can fix your URL on clicking this link <%= link_to team_pokes_url(@poke), team_pokes_url(@poke) %></p>
+
+Thanks & Regards,
+<br/>
+Schedular Team

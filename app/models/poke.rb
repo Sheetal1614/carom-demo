@@ -17,6 +17,7 @@ EOF
   CRON_FIELDS = {cron_seconds: '0', cron_minutes: '*', cron_hours: '*', cron_day_of_month: '*', cron_month: '*', cron_day_of_week: '*', cron_year: '*'}
   RESPONSE = 'RESPONSE'
   EXCEPTION = 'EXCEPTION'
+  INACTIVE = 'inactive'
 
   # --------- Stored attributes --------------------------------------------
   store :other_attributes,
@@ -76,7 +77,10 @@ EOF
 
       self.update_columns(other_attributes: self.other_attributes)
 
-      self.update_columns(live: false) unless doable?
+      unless doable?
+        NotificationMailer.notify_team_members_for_inactive_poke(self).deliver_later if self.live
+        self.update_columns(live: false)
+      end
     end
   end
 

@@ -90,20 +90,6 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
-  config.action_mailer.default_options = {
-      from: 'no-reply-carom@mckinsey.com',
-      charset: 'utf-8',
-      mime_version: '1.0',
-      implicit_parts_order: ['text/html', 'text/plain']
-  }
-  config.action_mailer.smtp_settings = {
-      address: 'mailhub.mckinsey.com',
-      domain: 'mailhub.mckinsey.com',
-      port: 25
-  }
-  config.action_mailer.raise_delivery_errors = true
-  config.action_mailer.delivery_method = :smtp
-
   config.holy_basil_connector = {
       host: ENV.fetch("HOLY_BASIL_HOST"),
       name: "CaromIntegration",
@@ -126,6 +112,9 @@ Rails.application.configure do
   # config.hosts.clear
 
   config.secret_key_base = "545528df3f9b7000ab5074e005cb6cf55523df4ab8770dc6821ec21afcee0ea33d8fd5e17d8cb63d38706c7a7789b1eabd355ae226c0c2c8bcb610152d2081ed"
+
+  # Setting web host as default URL
+  routes.default_url_options = {host: "schedularint.intranet.mckinsey.com"}
 
   # Inserts middleware to perform automatic connection switching.
   # The `database_selector` hash is used to pass options to the DatabaseSelector
