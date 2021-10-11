@@ -1,7 +1,7 @@
 class ApplicationMailer < ActionMailer::Base
 
   # --------- Defaults -----------------------------------------------------
-  default from: 'Scheduler <scheduler@mckinsey.com>'
+  default from: 'Schedular <opportunity@mckinsey.com>'
 
   # --------- Constants ----------------------------------------------------
   SMART_LOP = 'smart_lop_dev_team@mckinsey.com'
