@@ -70,7 +70,6 @@ EOF
 
         (self.latest_responses ||= []).prepend([Time.now, RESPONSE, _response.headers["validating-uuid"], _response.status, _response.body])
       rescue Exception => e
-        NotificationMailer.notify_team_members_for_inactive_poke(self).deliver_later if (self.live == false) and self.saved_change_to_live?
         (self.latest_responses ||= []).prepend([Time.now, EXCEPTION, e.message, e.backtrace])
       end
 
@@ -78,7 +77,10 @@ EOF
 
       self.update_columns(other_attributes: self.other_attributes)
 
-      self.update_columns(live: false) unless doable?
+      unless doable?
+        NotificationMailer.notify_team_members_for_inactive_poke(self).deliver_later if self.live
+        self.update_columns(live: false)
+      end
     end
   end
 
