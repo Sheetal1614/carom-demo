@@ -2,9 +2,9 @@ module ApplicationHelper
 
   def app_name
     ({
-        integration: 'Cron service (Integration)',
-        qa: 'Cron service (Qa)',
-        production: 'Cron service'
+        integration: 'Scheduler (Integration)',
+        qa: 'Scheduler (Qa)',
+        production: 'Scheduler'
     }[Rails.env.to_sym]) || 'Carom'
   end
 
