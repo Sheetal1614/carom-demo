@@ -114,7 +114,7 @@ Rails.application.configure do
   config.secret_key_base = "545528df3f9b7000ab5074e005cb6cf55523df4ab8770dc6821ec21afcee0ea33d8fd5e17d8cb63d38706c7a7789b1eabd355ae226c0c2c8bcb610152d2081ed"
 
   # Setting web host as default URL
-  routes.default_url_options = {host: "schedularqa.intranet.mckinsey.com"}
+  routes.default_url_options = {host: "schedulerqa.intranet.mckinsey.com"}
 
   # Inserts middleware to perform automatic connection switching.
   # The `database_selector` hash is used to pass options to the DatabaseSelector
