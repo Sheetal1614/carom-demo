@@ -1,5 +1,5 @@
 # Base Image
-FROM artifacts.intranet.mckinsey.com/gold-images/ruby:3.0
+FROM artifacts.intranet.mckinsey.com/gold-images/ruby:3-bullseye
 
 # Switching to root user
 USER root
