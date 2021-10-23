@@ -42,14 +42,17 @@ module Carom
         password: ENV['OPPORTUNITY_MAILER_PASSWORD']
     }
 
+    config.notify_dev_team_at = ENV.fetch("notify_dev_team_at") {"dope_notifications-aaaaeywbsjgnkwuvbslxbaikvu@mckinsey.org.slack.com"}
+
     # Exception notification configuration
-    config.middleware.use ExceptionNotification::Rack, email: {
-        email_prefix: "[#{Rails.env.capitalize}][Carom Exception]",
-        sender_address: %(smart_lop_dev_team@mckinsey.com),
-        exception_recipients: %w[smart_lop_dev_team@mckinsey.com]
-    },
-    splunk: {},
-    error_grouping: true
+    config.middleware.use ExceptionNotification::Rack,
+                          email: {
+                              email_prefix: "[#{Rails.env.capitalize}][Carom Exception]",
+                              sender_address: config.notify_dev_team_at,
+                              exception_recipients: [config.notify_dev_team_at]
+                          },
+                          splunk: {},
+                          error_grouping: true
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers
