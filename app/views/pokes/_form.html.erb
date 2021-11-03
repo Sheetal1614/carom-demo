@@ -1,4 +1,25 @@
-<%= form_with(model: poke, url: (poke.new_record? ? team_pokes_path(poke.team) : team_poke_path(poke.team, poke)), remote: true, class: "form") do |form| %>
+<%
+  _url_to_post_to = if poke.new_record?
+                      if poke.team
+                        team_pokes_path(poke.team)
+                      else
+                        pokes_path
+                      end
+                    else
+                      team_poke_path(poke.team, poke)
+                    end
+%>
+<%= form_with(model: poke, url: _url_to_post_to, remote: true, class: "form") do |form| %>
+
+  <% unless poke.team %>
+    <div class="input-group input-group-sm mb-3">
+      <div class="input-group-prepend">
+        <label class="input-group-text" for="inputGroupSelect01">Team</label>
+      </div>
+      <%= select_tag :team_id, options_for_select(current_user.leading_teams.collect {|team| [team.name, team.id]}), {prompt: 'Please select team from the following', class: "form-select form-control form-control-sm"} %>
+    </div>
+  <% end %>
+
   <div class="input-group input-group-sm">
     <div class="input-group-prepend">
       <span class="input-group-text">Cron expression</span>
@@ -9,7 +30,7 @@
     <% end %>
   </div>
   <p class="text-right cron_exp_label mb-2">
-    <small class="DDfont-weight-lighter"><%= Cronex::ExpressionDescriptor.new(poke.frequency).description unless poke.new_record? %></small>
+    <small class="font-weight-lighter"><%= Cronex::ExpressionDescriptor.new(poke.frequency).description unless poke.new_record? %></small>
   </p>
 
   <div class="input-group input-group-sm">
@@ -23,7 +44,7 @@
     </div>
     <%= form.text_field :url, class: "form-control form-control-sm" %>
     <div class="input-group-append">
-      <%= form.submit (poke.new_record? ? "Create" : "Update & Refresh"), class: "btn btn-primary", data: {disable_with: 'Processing...'} if poke.team.team_leaders.include?(current_user) %>
+      <%= form.submit (poke.new_record? ? "Create" : "Update & Refresh"), class: "btn btn-primary", disabled: (not current_user.leading_teams.exists?), data: {disable_with: 'Processing...'} %>
     </div>
   </div>
 <% end %>

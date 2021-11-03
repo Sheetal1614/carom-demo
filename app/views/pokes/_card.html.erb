@@ -1,6 +1,9 @@
 <div class="poke_form poke_form_<%= poke.id %>">
 
   <div class="alert alert-light border border-info" role="alert">
+    <% if show_team_label ||= false %>
+      <p>Team: <%= poke.team.name %></p>
+    <% end %>
 
     <%= form_with(model: poke, url: team_poke_path(poke.team, poke), remote: true, method: :delete, class: 'form mb-3') do |form| %>
       <div class="input-group input-group-sm">

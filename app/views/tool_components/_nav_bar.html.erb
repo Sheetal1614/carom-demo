@@ -9,7 +9,7 @@
       _team = current_user.teams.first
       if current_user.teams.exists?
         menu_items << {label: 'Team', uri: members_team_path(_team)}
-        menu_items << {label: 'Pokes', uri: team_pokes_path(_team)}
+        menu_items << {label: 'Pokes', uri: pokes_path}
       end
 
       if current_user.application_admin?
