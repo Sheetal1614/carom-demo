@@ -11,7 +11,7 @@ class PokesController < ApplicationController
   def create
     @poke = @team.pokes.new(poke_params)
     _notice = if @poke.save
-                @poke.do(true)
+                @poke.do(true, true)
                 "Poke created successfully."
               else
                 "Failed to create poke as #{@poke.errors.full_messages.to_sentence}"
@@ -22,7 +22,7 @@ class PokesController < ApplicationController
 
   def update
     _notice = if @poke.update(poke_params)
-                @poke.do(true)
+                @poke.do(true, true)
                 "Poke updated successfully."
               else
                 "Failed to update poke as #{@poke.errors.full_messages.to_sentence}"
