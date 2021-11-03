@@ -1,15 +1,44 @@
+<h5>Pokes</h5>
+
 <div class="row">
   <div class="col-12">
     <div class="alert alert-info" style="font-size: 0.85rem" role="alert">
       <h6>Cron field valid values</h6>
       <hr/>
-      <pre><%=Poke::CRON_HELP %></pre>
+      <pre><%= Poke::CRON_HELP %></pre>
     </div>
   </div>
 </div>
 
+<%
+  pokes = if @team
+            @team.pokes
+          else
+            current_user.accessible_pokes
+          end
+%>
+
 <div class="row">
   <div class="col-12">
-    <%= render partial: 'pokes/lists', locals: {team: @team} %>
+
+    <% if @team and @team.team_leaders.include?(current_user) %>
+      <%= render(partial: 'pokes/new_card', locals: {poke: @team.pokes.new}) %>
+    <% elsif current_user.leading_teams.exists? %>
+      <%= render(partial: 'pokes/new_card', locals: {poke: Poke.new}) %>
+    <% end %>
+
+    <% if pokes.exists? %>
+      <%= render(partial: 'pokes/card', collection: pokes.reload.order("id desc"), locals: {show_team_label: @team ? false : true}, as: :poke) %>
+    <% else %>
+      <div class="alert alert-primary" style="font-size: 0.85rem" role="alert">Existing pokes should appear here.</div>
+    <% end %>
+
+    <script type="text/javascript">
+        latestResponsesToggle();
+        readCronExpression();
+        $('form').each(function (i, e) {
+            $(e).find('.cron_exp_field:last').trigger('input')
+        })
+    </script>
   </div>
 </div>

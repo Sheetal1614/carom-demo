@@ -1,1 +1,5 @@
-<%= render(partial: 'pokes/tab_structure', locals: {partial_to_render: 'pokes/pokes_tab_content'}) %>
+<% if @team %>
+  <%= render(partial: 'teams/tab_structure', locals: {partial_to_render: 'pokes/pokes_tab_content'}) %>
+<% else %>
+  <%= render(partial: 'pokes/pokes_tab_content') %>
+<% end %>

@@ -8,7 +8,7 @@
     ug_menu_items << {type: :separator, label: 'Other teams'}
 
     other_teams.each do |team|
-      ug_menu_items << {label: "Team: #{team.name}", url: members_team_path(team)}
+      ug_menu_items << {label: "Team: #{team.name}", url: (controller_name == 'pokes' and action_name == 'index') ? team_pokes_path(team) : members_team_path(team)}
     end
   end
 %>

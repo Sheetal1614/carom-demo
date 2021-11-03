@@ -40,6 +40,8 @@ Rails.application.routes.draw do
     resources :pokes
   end
 
+  resources :pokes, only: [:index, :create]
+
   get 'under_grounds', to: 'under_grounds#teams'
   resources :under_grounds, only: [] do
     collection do

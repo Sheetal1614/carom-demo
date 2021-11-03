@@ -34,6 +34,7 @@ yarn-debug.log*
 /mysql_data
 
 docker-compose.yml
+docker-compose_*.yml
 
 carom-crontab
 

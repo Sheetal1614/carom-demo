@@ -57,7 +57,7 @@ EOF
   end
 
   # --------- Instance methods ---------------------------------------------
-  def do(force = false)
+  def do(force = false, manual_call = false)
     if force or doable?
       Rails.logger.debug("Executing poke: #{['id', 'live', 'url', 'validating_uuid'].collect {|_method| {_method => self.send(_method)}}.inject(&:merge)}}")
       begin
@@ -78,7 +78,7 @@ EOF
       self.update_columns(other_attributes: self.other_attributes)
 
       unless doable?
-        NotificationMailer.notify_team_members_for_inactive_poke(self).deliver_later if self.live
+        NotificationMailer.notify_team_members_for_inactive_poke(self).deliver_later if self.live and (not manual_call)
         self.update_columns(live: false)
       end
     end
