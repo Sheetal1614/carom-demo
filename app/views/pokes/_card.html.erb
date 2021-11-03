@@ -2,7 +2,7 @@
 
   <div class="alert alert-light border border-info" role="alert">
 
-    <%= form_with(model: poke, url: team_poke_path(@team, poke), remote: true, method: :delete, class: 'form mb-3') do |form| %>
+    <%= form_with(model: poke, url: team_poke_path(poke.team, poke), remote: true, method: :delete, class: 'form mb-3') do |form| %>
       <div class="input-group input-group-sm">
         <div class="input-group-prepend">
           <span class="input-group-text"><strong><%= poke.id %></strong></span>
@@ -13,49 +13,19 @@
         <input type="text" class="form-control bg-transparent" value="<%= poke.validating_uuid %>" readonly="readonly">
         <div class="input-group-append">
           <a href="javascript:void(0);" class="btn btn-outline-info latest_response"><%= pluralize(poke.latest_responses.size, 'Response') %></a>
-          <%= form.submit "Delete", class: "btn btn-outline-danger", data: {disable_with: 'Processing...', confirm: 'Are you sure?'} if @team.team_leaders.include?(current_user) %>
-        </div>
-      </div>
-    <% end unless poke.new_record? %>
-
-    <%= form_with(model: poke, url: (poke.new_record? ? team_pokes_path(@team) : team_poke_path(@team, poke)), remote: true, class: "form") do |form| %>
-      <div class="input-group input-group-sm">
-        <div class="input-group-prepend">
-          <span class="input-group-text">Cron expression</span>
-        </div>
-        <% Poke::CRON_FIELDS.keys.each do |_cron_field|
-          _cron_field_label = _cron_field.to_s.gsub(/cron_/, '').humanize %>
-          <%= form.text_field _cron_field, class: "form-control text-center cron_exp_field", placeholder: _cron_field_label, title: _cron_field_label %>
-        <% end %>
-      </div>
-      <p class="text-right cron_exp_label mb-2">
-        <small class="DDfont-weight-lighter"><%= Cronex::ExpressionDescriptor.new(poke.frequency).description unless poke.new_record? %></small>
-      </p>
-
-      <div class="input-group input-group-sm">
-        <div class="input-group-prepend">
-          <div class="input-group-text">
-            <%= form.check_box :live, title: 'Check to make it live or uncheck otherwise.' %>
-          </div>
-        </div>
-        <div class="input-group-prepend">
-          <span class="input-group-text">URL to hit: </span>
-        </div>
-        <%= form.text_field :url, class: "form-control form-control-sm" %>
-        <div class="input-group-append">
-          <%= form.submit (poke.new_record? ? "Create" : "Update & Refresh"), class: "btn btn-primary", data: {disable_with: 'Processing...'} if @team.team_leaders.include?(current_user) %>
+          <%= form.submit "Delete", class: "btn btn-outline-danger", data: {disable_with: 'Processing...', confirm: 'Are you sure?'} if poke.team.team_leaders.include?(current_user) %>
         </div>
       </div>
     <% end %>
 
-    <% unless poke.new_record? %>
-      <div class="alert alert-info mb-0 monospace_text" style="display: none">
-        <h6>Latest responses</h6>
-        <% poke.latest_responses.each do |_response| %>
-          <li><%= truncate(_response.inspect, length: 217) %></li>
-        <% end %>
-      </div>
-    <% end %>
+    <%= render(partial: 'pokes/form', locals: {poke: poke}) %>
+
+    <div class="alert alert-info mb-0 monospace_text" style="display: none">
+      <h6>Latest responses</h6>
+      <% poke.latest_responses.each do |_response| %>
+        <li><%= truncate(_response.inspect, length: 217) %></li>
+      <% end %>
+    </div>
 
   </div>
 

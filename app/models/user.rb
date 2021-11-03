@@ -14,6 +14,7 @@ class User < ApplicationRecord
 
   has_many :leading_memberships, -> {where(kind: Membership::MT_TEAM_LEADER)}, class_name: 'Membership', dependent: :destroy
   has_many :leading_teams, through: :leading_memberships, source: :team
+  has_many :leading_pokes, through: :leading_teams, source: :pokes
 
   # --------- Validations --------------------------------------------------
   validate :check_for_lone_application_admin

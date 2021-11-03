@@ -1,8 +1,9 @@
 class PokesController < ApplicationController
 
   # --------- Filters ------------------------------------------------------
-  before_action :fetch_team
-  before_action :fetch_poke, only: [:update, :destroy]
+  before_action :fetch_team, only: [:index]
+  before_action :fetch_leading_team, only: [:create]
+  before_action :fetch_leading_poke, only: [:update, :destroy]
 
   def index
   end
@@ -46,13 +47,18 @@ class PokesController < ApplicationController
     params.require(:poke).permit(:live, :url, *Poke::CRON_FIELDS.keys)
   end
 
-  def fetch_poke
-    return if (@poke = current_user.accessible_pokes.where(id: params[:id]).take)
+  def fetch_leading_poke
+    return if (@poke = current_user.leading_pokes.where(id: params[:id]).take)
     redirect_on_inaccessible_poke
   end
 
   def fetch_team
     return if (@team = current_user.teams.where(id: params[:team_id]).take)
+    redirect_on_inaccessible_team
+  end
+
+  def fetch_leading_team
+    return if (@team = current_user.leading_teams.where(id: params[:team_id]).take)
     redirect_on_inaccessible_team
   end
 
