@@ -30,13 +30,13 @@ class UnderGroundsController < ApplicationController
                                            end
                                          elsif params[:action_2_perform] == 'add'
                                            _team_leaders = (params[:fmnos_with_name_and_email] || []).uniq.collect do |fmno_with_name_and_email|
-                                             _matched_data = fmno_with_name_and_email.match(/(.+) \(name: (.+)\) \(email: (.+)\)\z/i)
+                                             _matched_data = fmno_with_name_and_email.match(/(.+) \(name: (.*)\) \(email: (.*)\)\z/i)
 
                                              member = User.find_or_initialize_by(fmno: _matched_data[1])
 
                                              if member.new_record?
-                                               member.name = _matched_data[2]
-                                               member.email = _matched_data[3]
+                                               member.name = (_matched_data[2].present? ? _matched_data[2] : nil)
+                                               member.email = (_matched_data[3].present? ? _matched_data[3] : nil)
                                              end
 
                                              member
@@ -60,13 +60,13 @@ class UnderGroundsController < ApplicationController
 
       flash[:notice] = if params[:action_2_perform] == 'add'
                          _members = (params[:fmnos_with_name_and_email] || []).uniq.collect do |fmno_with_name_and_email|
-                           _matched_data = fmno_with_name_and_email.match(/(.+) \(name: (.+)\) \(email: (.+)\)\z/i)
+                           _matched_data = fmno_with_name_and_email.match(/(.+) \(name: (.*)\) \(email: (.*)\)\z/i)
 
                            member = User.find_or_initialize_by(fmno: _matched_data[1])
 
                            if member.new_record?
-                             member.name = _matched_data[2]
-                             member.email = _matched_data[3]
+                             member.name = (_matched_data[2].present? ? _matched_data[2] : nil)
+                             member.email = (_matched_data[3].present? ? _matched_data[3] : nil)
                            end
 
                            member.application_admin = true
