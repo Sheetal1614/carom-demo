@@ -10,7 +10,7 @@
         <div class="row edit_card">
           <div class="col-12">
             <h5>Add new</h5>
-            <%= form_with url: application_admins_under_grounds_path(action_2_perform: :add), method: :post do %>
+            <%= form_with url: application_admins_under_grounds_path(action_2_perform: :add), method: :post, local: false do %>
 
               <div class="row mb-3">
                 <div class="col-12">

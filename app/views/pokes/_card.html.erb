@@ -5,7 +5,7 @@
       <p>Team: <%= poke.team.name %></p>
     <% end %>
 
-    <%= form_with(model: poke, url: team_poke_path(poke.team, poke), remote: true, method: :delete, class: 'form mb-3') do |form| %>
+    <%= form_with(model: poke, url: team_poke_path(poke.team, poke), local: false, method: :delete, class: 'form mb-3') do |form| %>
       <div class="input-group input-group-sm">
         <div class="input-group-prepend">
           <span class="input-group-text"><strong><%= poke.id %></strong></span>

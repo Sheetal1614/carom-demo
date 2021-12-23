@@ -5,7 +5,7 @@
         <h5 class="card-title">Toggle Sign-up</h5>
 
         <div class="card-text">
-          <%= form_with(url: miscellaneous_under_grounds_path(action_2_perform: 'toggle_signup'), remote: true, data: {confirm: 'Are you sure?'}) do %>
+          <%= form_with(url: miscellaneous_under_grounds_path(action_2_perform: 'toggle_signup'), local: false, data: {confirm: 'Are you sure?'}) do %>
             <div class="form-row">
               <div class="col">
                 <% if signup_enabled? %>

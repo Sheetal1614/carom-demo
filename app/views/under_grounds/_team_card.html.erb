@@ -33,7 +33,7 @@
       <div class="row edit_card" style="display: none">
         <div class="col-12">
           <h5><%= team.name %> (id: <%= team.id %>)</h5>
-          <%= form_with url: teams_under_grounds_path(team_id: team, action_2_perform: :update), method: :post, model: team do |f| %>
+          <%= form_with url: teams_under_grounds_path(team_id: team, action_2_perform: :update), method: :post, local: false, model: team do |f| %>
             <div class="row mb-3">
               <div class="col-6">
                 <%= f.label :name %>

@@ -6,7 +6,7 @@
       <div class="row edit_card">
         <div class="col-12">
           <h5>Add team</h5>
-          <%= form_with url: teams_under_grounds_path(action_2_perform: :add), method: :post, model: Team.new do |f| %>
+          <%= form_with url: teams_under_grounds_path(action_2_perform: :add), method: :post, local: false, model: Team.new do |f| %>
             <div class="row mb-3">
               <div class="col-4">
                 <%= f.label :name %>

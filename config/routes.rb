@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 
+  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
   post '/test_callback', to: 'documents#test_callback'
 
   get '/sign-up', to: 'sessions#sign_up', as: 'sign_up'
@@ -63,5 +63,6 @@ Rails.application.routes.draw do
     end
   end
 
+  # Defines the root path route ("/")
   root to: 'sessions#index'
 end

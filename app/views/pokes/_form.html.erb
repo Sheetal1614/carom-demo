@@ -9,7 +9,7 @@
                       team_poke_path(poke.team, poke)
                     end
 %>
-<%= form_with(model: poke, url: _url_to_post_to, remote: true, class: "form") do |form| %>
+<%= form_with(model: poke, url: _url_to_post_to, local: false, class: "form") do |form| %>
 
   <% unless poke.team %>
     <div class="input-group input-group-sm mb-3">

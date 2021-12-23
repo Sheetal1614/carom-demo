@@ -1,6 +1,6 @@
 <div class="row mb-1">
   <div class="col-12">
-    <%= form_with(url: members_team_path(@team)) do %>
+    <%= form_with(url: members_team_path(@team), local: false) do %>
       <div class="form-row mb-2">
         <div class="col-10">
           <%= select_tag 'fmnos_with_name_and_email[]', '', multiple: true, id: 'fmnos_select2_field', class: 'form-control' %>
