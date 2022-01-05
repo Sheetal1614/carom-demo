@@ -14,16 +14,16 @@
   pokes = if @team
             @team.pokes
           else
-            current_user.accessible_pokes
+            Current.user.accessible_pokes
           end
 %>
 
 <div class="row">
   <div class="col-12">
 
-    <% if @team and @team.team_leaders.include?(current_user) %>
+    <% if @team and @team.team_leaders.include?(Current.user) %>
       <%= render(partial: 'pokes/new_card', locals: {poke: @team.pokes.new}) %>
-    <% elsif current_user.leading_teams.exists? %>
+    <% elsif Current.user.leading_teams.exists? %>
       <%= render(partial: 'pokes/new_card', locals: {poke: Poke.new}) %>
     <% end %>
 

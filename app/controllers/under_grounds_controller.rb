@@ -136,7 +136,7 @@ class UnderGroundsController < ApplicationController
   end
 
   def restricted_to_application_admin_only
-    unless current_user.application_admin?
+    unless Current.user.application_admin?
       _message = "Access restricted. Only application's admin are passed through."
 
       if request.xhr?

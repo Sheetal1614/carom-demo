@@ -115,10 +115,10 @@ EOF
   end
 
   def allow_for_team_leaders_only
-    # return if RequestInfo.current_user and RequestInfo.current_user.leading_pokes.where(id: self.id).exists?
-    # if _current_user = RequestInfo.current_user and _team = _current_user.teams.where(id: self.team_id).take and _team.team_leaders.include?(RequestInfo.current_user)
+    # return if Current.user and Current.user.leading_pokes.where(id: self.id).exists?
+    # if _current_user = Current.user and _team = _current_user.teams.where(id: self.team_id).take and _team.team_leaders.include?(Current.user)
     # else
-    return if RequestInfo.current_user and self.team.team_leaders.include?(RequestInfo.current_user)
+    return if Current.user and self.team.team_leaders.include?(Current.user)
 
     self.errors.add(:base, "not accessible for the operation. Only team leaders are allowed for create, update & delete operations.")
     throw(:abort)

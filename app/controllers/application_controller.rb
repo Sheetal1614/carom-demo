@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
   before_action :restricted_to_logged_in_user_only
 
   # --------- Helpers ------------------------------------------------------
-  helper_method :current_user, :signup_enabled?
+  helper_method :signup_enabled?
 
   def signup_enabled?
     (Rails.cache.read(LABEL_SIGNUP_ENABLED) || false)

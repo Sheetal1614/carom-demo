@@ -21,8 +21,8 @@ module RedirectOnInaccessibleConcern
   end
 
   def redirect_on_inaccessible(_message)
-    _redirect_to_path = if current_user.teams.exists?
-                          members_team_path(current_user.teams.first)
+    _redirect_to_path = if Current.user.teams.exists?
+                          members_team_path(Current.user.teams.first)
                         else
                           root_path
                         end

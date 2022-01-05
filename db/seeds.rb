@@ -8,7 +8,7 @@
 
 # Adding User and Team
 user_1 = User.create(fmno: 177266, name: 'Praveen Kumar Sinha', email: 'praveen_kumar_sinha@mckinsey.com', password: User::DEFAULT_PA55W0RD, password_confirmation: User::DEFAULT_PA55W0RD, application_admin: true)
-RequestInfo.current_user = user_1
+Current.user = user_1
 
 team_1 = Team.create(name: 'Team One from seed')
 team_1.team_leaders << user_1
