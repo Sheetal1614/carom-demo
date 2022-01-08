@@ -3,7 +3,7 @@
   ug_menu_items << {label: 'Members', url: members_team_path(@team), match: {controller: 'teams', action: 'members'}}
   ug_menu_items << {label: 'Pokes', url: team_pokes_path(@team), match: {controller: 'pokes', action: 'index'}}
 
-  other_teams = current_user.teams.where.not(id: @team.id)
+  other_teams = Current.user.teams.where.not(id: @team.id)
   if other_teams.exists?
     ug_menu_items << {type: :separator, label: 'Other teams'}
 

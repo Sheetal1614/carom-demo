@@ -9,7 +9,7 @@ class SessionsController < ApplicationController
 
   # --------- Action methods -----------------------------------------------
   def index
-    redirect_to okta_login_session_path unless current_user
+    redirect_to okta_login_session_path unless Current.user
   end
 
   def okta_login
@@ -98,7 +98,7 @@ class SessionsController < ApplicationController
   end
 
   def clear_session
-    RequestInfo.current_user = session[:user_id] = nil
+    Current.user = session[:user_id] = nil
     reset_session
   end
 

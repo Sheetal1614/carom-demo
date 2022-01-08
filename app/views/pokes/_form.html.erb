@@ -16,7 +16,7 @@
       <div class="input-group-prepend">
         <label class="input-group-text" for="inputGroupSelect01">Team</label>
       </div>
-      <%= select_tag :team_id, options_for_select(current_user.leading_teams.collect {|team| [team.name, team.id]}), {prompt: 'Please select team from the following', class: "form-select form-control form-control-sm"} %>
+      <%= select_tag :team_id, options_for_select(Current.user.leading_teams.collect {|team| [team.name, team.id]}), {prompt: 'Please select team from the following', class: "form-select form-control form-control-sm"} %>
     </div>
   <% end %>
 
@@ -44,7 +44,7 @@
     </div>
     <%= form.text_field :url, class: "form-control form-control-sm" %>
     <div class="input-group-append">
-      <%= form.submit (poke.new_record? ? "Create" : "Update & Refresh"), class: "btn btn-primary", disabled: (not current_user.leading_teams.exists?), data: {disable_with: 'Processing...'} %>
+      <%= form.submit (poke.new_record? ? "Create" : "Update & Refresh"), class: "btn btn-primary", disabled: (not Current.user.leading_teams.exists?), data: {disable_with: 'Processing...'} %>
     </div>
   </div>
 <% end %>

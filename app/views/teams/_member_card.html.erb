@@ -19,7 +19,7 @@
         Email: <%= member.email %><br/>
         Fmno: <%= member.fmno %>
       </p>
-      <% if current_user.leading_teams.exists?(id: @team.id) %>
+      <% if Current.user.leading_teams.exists?(id: @team.id) %>
         <div class="btn-group btn-group-sm" role="group">
           <%= link_to("#{is_team_lead ? 'Revoke' : 'Grant'} team lead", toggle_team_leader_team_path(@team, member_id: member.id),
                       method: :post, class: "btn btn-outline-primary", remote: true, data: {confirm: 'Are you sure?'}) %>

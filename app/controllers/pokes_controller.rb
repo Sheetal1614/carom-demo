@@ -5,7 +5,7 @@ class PokesController < ApplicationController
   before_action :fetch_leading_poke, only: [:update, :destroy]
 
   def index
-    @team = current_user.teams.where(id: params[:team_id]).take
+    @team = Current.user.teams.where(id: params[:team_id]).take
   end
 
   def create
@@ -48,12 +48,12 @@ class PokesController < ApplicationController
   end
 
   def fetch_leading_team
-    return if (@team = current_user.leading_teams.where(id: params[:team_id]).take)
+    return if (@team = Current.user.leading_teams.where(id: params[:team_id]).take)
     redirect_on_inaccessible_team
   end
 
   def fetch_leading_poke
-    return if (@poke = current_user.leading_pokes.where(id: params[:id]).take)
+    return if (@poke = Current.user.leading_pokes.where(id: params[:id]).take)
     redirect_on_inaccessible_poke
   end
 

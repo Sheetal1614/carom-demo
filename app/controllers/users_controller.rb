@@ -1,11 +1,11 @@
 class UsersController < ApplicationController
 
   def profile
-    @user = current_user
+    @user = Current.user
   end
 
   def update
-    @user = current_user
+    @user = Current.user
 
     flash.now[:notice] = if @user.authenticate(params.dig(:user, :existing_password))
                            if @user.update(user_params)

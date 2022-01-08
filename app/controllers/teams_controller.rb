@@ -6,7 +6,7 @@ class TeamsController < ApplicationController
 
   def members
     if request.xhr?
-      unless current_user.leading_teams.where(id: params[:id]).take
+      unless Current.user.leading_teams.where(id: params[:id]).take
         flash[:notice] = RedirectOnInaccessibleConcern::MESSAGE_INACCESSIBLE_TEAM
         return
       end
@@ -84,12 +84,12 @@ class TeamsController < ApplicationController
   private
 
   def fetch_team
-    return if (@team = current_user.teams.where(id: params[:id]).take)
+    return if (@team = Current.user.teams.where(id: params[:id]).take)
     redirect_on_inaccessible_team
   end
 
   def fetch_leading_team
-    return if (@team = current_user.leading_teams.where(id: params[:id]).take)
+    return if (@team = Current.user.leading_teams.where(id: params[:id]).take)
     redirect_on_inaccessible_team
   end
 
