@@ -56,7 +56,8 @@ gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
 gem 'exception_notification'
 
 # For process monitoring # http://godrb.com/
-gem 'god'
+# gem 'god'
+gem 'god', '~> 0.13.8.1', source: "http://gems.intranet.mckinsey.com"
 
 # For active job #https://github.com/nesquena/backburner
 gem 'backburner'
