@@ -1,0 +1,53 @@
+# This is an auto generated file created during SCAS onboarding.
+# Any modifications done could be overriden
+
+name: Sonar
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the master branch
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  sonar_scan:
+    # The type of runner that the job will run on
+    runs-on: [linux, scas]
+    env:
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+      USER: ${{ secrets.ARTIFACTORY_USER }}
+      PASS: ${{ secrets.ARTIFACTORY_PASS }}
+      team: MDE_ProposeToWin
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@master
+      - name: Docker Login
+        run: docker login -u $USER -p $PASS mckinsey-docker.jfrog.io
+      - if: ${{ github.base_ref == null }}
+        name: Sonar Scan
+        run: |
+          docker run -i --user `id -u` --rm -e SONAR_TOKEN -e SONAR_HOST_URL \
+          -v `pwd`:/app -w /app mckinsey-docker.jfrog.io/sonarsource/sonar-scanner-cli:4 \
+            -Dsonar.projectKey=MDE_ProposeToWin-McK-Internal_MDE_ProposeToWin-carom \
+            -Dsonar.sources=./ \
+            -Dsonar.branch.name=`echo "${{ github.ref }}" | cut -b 12-` \
+            -Dsonar.qualitygate.wait=false
+      - if: ${{ github.base_ref != null }}
+        name: Sonar Scan on PR
+        run: |
+          docker run -i --user `id -u` --rm -e SONAR_TOKEN -e SONAR_HOST_URL \
+          -v `pwd`:/app -w /app mckinsey-docker.jfrog.io/sonarsource/sonar-scanner-cli:4 \
+            -Dsonar.projectKey=MDE_ProposeToWin-McK-Internal_MDE_ProposeToWin-carom \
+            -Dsonar.sources=./ \
+            -Dsonar.pullrequest.key=${{ github.event.number }} \
+            -Dsonar.pullrequest.branch=${{ github.head_ref }} \
+            -Dsonar.pullrequest.base=${{ github.base_ref }} \
+            -Dsonar.qualitygate.wait=false
+      - if: always()
+        name: Docker Logout
+        run: docker logout mckinsey-docker.jfrog.io
