@@ -71,7 +71,7 @@ gem "sassc-rails"
 #For date validations
 gem 'date_validator'
 
-gem 'ThymeFieldAccommodator', '~> 0.7.5', source: "http://gems.intranet.mckinsey.com"
+gem 'ThymeFieldAccommodator', '~> 0.8.2', source: "http://gems.intranet.mckinsey.com"
 # gem 'ThymeFieldAccommodator', path: "./LocalThymeFieldAccommodator"
 # gem 'faraday'
 
