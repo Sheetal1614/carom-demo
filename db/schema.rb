@@ -10,14 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_08_121918) do
-
+ActiveRecord::Schema[7.0].define(version: 2021_09_08_121918) do
   create_table "memberships", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "team_id"
     t.bigint "user_id"
     t.string "kind"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["team_id"], name: "index_memberships_on_team_id"
     t.index ["user_id"], name: "index_memberships_on_user_id"
   end
@@ -27,8 +26,8 @@ ActiveRecord::Schema.define(version: 2021_09_08_121918) do
     t.boolean "live", default: false
     t.string "frequency"
     t.text "other_attributes", size: :long
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["frequency"], name: "index_pokes_on_frequency"
     t.index ["live"], name: "index_pokes_on_live"
     t.index ["team_id"], name: "index_pokes_on_team_id"
@@ -36,8 +35,8 @@ ActiveRecord::Schema.define(version: 2021_09_08_121918) do
 
   create_table "teams", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -46,8 +45,8 @@ ActiveRecord::Schema.define(version: 2021_09_08_121918) do
     t.string "email", null: false
     t.boolean "application_admin", default: false
     t.string "password_digest"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["fmno"], name: "index_users_on_fmno", unique: true
   end

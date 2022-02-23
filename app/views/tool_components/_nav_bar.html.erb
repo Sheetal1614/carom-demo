@@ -6,8 +6,8 @@
   <%
     menu_items = []
     if Current.user
-      _team = Current.user.teams.first
       if Current.user.teams.exists?
+        _team = Current.user.teams.first
         menu_items << {label: 'Team', uri: members_team_path(_team)}
         menu_items << {label: 'Pokes', uri: pokes_path}
       end
