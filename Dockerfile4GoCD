@@ -21,7 +21,7 @@ USER root
 
 # Installing required libraries
 RUN apt-get update -qq
-RUN apt-get install -y build-essential curl git nodejs libmariadb-dev
+RUN apt-get install -y build-essential curl git nodejs libmariadb-dev figlet
 
 ENV SUPERCRONIC_URL=https://github.com/aptible/supercronic/releases/download/v0.1.12/supercronic-linux-amd64 \
     SUPERCRONIC=supercronic-linux-amd64 \
@@ -68,6 +68,9 @@ RUN groupadd --system carom
 RUN useradd -u 1001 --system carom -g carom -d /home/carom -m -s /bin/bash
 RUN chown -R carom /app
 RUN chmod -R 777 /app
+
+# Adding figlet :)
+RUN echo "figlet -cl 'Carom'" >> /home/carom/.bashrc
 
 # Switching to non-root user 'carom'
 USER carom
