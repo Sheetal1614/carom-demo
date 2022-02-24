@@ -1,4 +1,5 @@
-source "https://rubygems.org"
+# source "https://rubygems.org"
+source "https://mckinsey.jfrog.io/artifactory/api/gems/rubygems"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby "3.0.2"
@@ -57,7 +58,7 @@ gem 'exception_notification'
 
 # For process monitoring # http://godrb.com/
 # gem 'god'
-gem 'god', '~> 0.13.8.1', source: "http://gems.intranet.mckinsey.com"
+gem 'god', '~> 0.13.8.1'
 
 # For active job #https://github.com/nesquena/backburner
 gem 'backburner'
@@ -71,7 +72,7 @@ gem "sassc-rails"
 #For date validations
 gem 'date_validator'
 
-gem 'ThymeFieldAccommodator', '~> 0.8.2', source: "http://gems.intranet.mckinsey.com"
+gem 'ThymeFieldAccommodator', '~> 0.8.2'
 # gem 'ThymeFieldAccommodator', path: "./LocalThymeFieldAccommodator"
 # gem 'faraday'
 

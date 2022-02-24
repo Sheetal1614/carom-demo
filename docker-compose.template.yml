@@ -21,7 +21,11 @@ services:
     depends_on:
       - "db"
       - "memcache"
-    build: ../MDE_ProposeToWin-holy_basil/.
+    build:
+      context: ../MDE_ProposeToWin-holy_basil/.
+      args:
+        JFROG_USERNAME: <Get from Team>
+        JFROG_PASSWORD: <Get from Team>
     ports:
       - "3008:3000"
     environment:
@@ -44,7 +48,11 @@ services:
       - "db"
       - "memcache"
       - "holy-basil"
-    build: .
+    build:
+      context: .
+      args:
+        JFROG_USERNAME: <Get from Team>
+        JFROG_PASSWORD: <Get from Team>
     ports:
       - "3006:3000"
     environment:

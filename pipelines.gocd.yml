@@ -23,7 +23,7 @@ pipelines:
                     command: bash
                     arguments:
                       - "-c"
-                      - "docker build -f Dockerfile4GoCD -t artifacts.intranet.mckinsey.com/k8s-proposetowin-snapshots/carom:`cat latest_git_sha` ."
+                      - "docker build --build-arg JFROG_USERNAME=$JFROG_USERNAME_RO --build-arg JFROG_PASSWORD=$JFROG_PASSWORD_RO -f Dockerfile4GoCD -t artifacts.intranet.mckinsey.com/k8s-proposetowin-snapshots/carom:`cat latest_git_sha` ."
                 - exec:
                     command: bash
                     arguments:

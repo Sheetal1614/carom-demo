@@ -25,8 +25,12 @@ WORKDIR /gem_playground
 # For installing ThymeFieldAccommodator locally
 #COPY LocalThymeFieldAccommodator ./LocalThymeFieldAccommodator
 
-RUN gem install bundler
+ARG JFROG_USERNAME
+ARG JFROG_PASSWORD
+
+RUN gem install --source https://mckinsey.jfrog.io/artifactory/api/gems/rubygems bundler
 COPY Gemfile* ./
+RUN bundle config set --global mckinsey.jfrog.io $JFROG_USERNAME:$JFROG_PASSWORD
 RUN bundle update --bundler
 RUN bundle install
 

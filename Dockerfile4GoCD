@@ -37,8 +37,12 @@ RUN curl -fsSLO "$SUPERCRONIC_URL" \
 RUN mkdir /gem_playground
 WORKDIR /gem_playground
 
-RUN gem install bundler
+ARG JFROG_USERNAME
+ARG JFROG_PASSWORD
+
+RUN gem install --source https://mckinsey.jfrog.io/artifactory/api/gems/rubygems bundler
 COPY Gemfile* ./
+RUN bundle config set --global mckinsey.jfrog.io $JFROG_USERNAME:$JFROG_PASSWORD
 RUN bundle update --bundler
 RUN bundle install
 
