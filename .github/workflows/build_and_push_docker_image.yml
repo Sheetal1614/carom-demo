@@ -31,6 +31,6 @@ jobs:
             JFROG_USERNAME=${{ secrets.JFROG_USERNAME_RO }}
             JFROG_PASSWORD=${{ secrets.JFROG_PASSWORD_RO }}
           push: ${{ github.event_name != 'pull_request' }}
-          dockerfile: Dockerfile4GoCD
+          file: Dockerfile4GoCD
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
