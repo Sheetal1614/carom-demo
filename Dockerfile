@@ -1,5 +1,5 @@
 # Base Image
-FROM artifacts.intranet.mckinsey.com/gold-images/ruby:3.0
+FROM mckinsey-elm-dope-docker.jfrog.io/gold-images/ruby:3.0
 
 # Switching to root user
 USER root
