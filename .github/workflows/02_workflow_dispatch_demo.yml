@@ -20,4 +20,4 @@ jobs:
       - name: Hi
         run: echo "Hi"
       - name: Praveen
-        run: echo "${{ github.event.inputs.tag || 'latest}}"
+        run: echo "${{ github.event.inputs.tag || 'latest'}}"
