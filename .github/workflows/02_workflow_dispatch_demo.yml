@@ -1,6 +1,10 @@
 name: 02. WORKFLOW dispatch demo
 on:
-  workflow_dispatch
+  # Manual trigger from the UI
+  workflow_dispatch:
+    inputs:
+      message:
+        description: 'Build description'
 jobs:
   say_hi:
     runs-on: [ linux, PlatformAccelerator ]
