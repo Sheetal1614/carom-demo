@@ -1,4 +1,4 @@
-name: Checkout, Build And Push on 'mckinsey-elm-dope-docker'
+name: 01. Checkout, Build And Push on 'mckinsey-elm-dope-docker'
 on:
   push:
     branches:

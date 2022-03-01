@@ -1,4 +1,4 @@
-name: WORKFLOW dispatch demo
+name: 02. WORKFLOW dispatch demo
 on:
   workflow_dispatch
 jobs:
