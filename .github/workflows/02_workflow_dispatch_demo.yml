@@ -5,6 +5,12 @@ on:
     inputs:
       message:
         description: 'Build description'
+
+  # Dependency to a forking workflow
+  workflow_run:
+    workflows: [ "01. Checkout, Build And Push on 'mckinsey-elm-dope-docker'" ]
+    type:
+      - complete
 jobs:
   say_hi:
     runs-on: [ linux, PlatformAccelerator ]
