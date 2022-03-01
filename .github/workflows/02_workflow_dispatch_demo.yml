@@ -3,8 +3,10 @@ on:
   # Manual trigger from the UI
   workflow_dispatch:
     inputs:
-      message:
-        description: 'Build description'
+      tag:
+        description: 'Tag of the image to deploy'
+        required: true
+        default: ead1d97
 
   # Dependency to a forking workflow
   workflow_run:
@@ -17,3 +19,5 @@ jobs:
     steps:
       - name: Hi
         run: echo "Hi"
+      - name: Praveen
+        run: echo "${{ github.event.inputs.tag || "latest"}}"
