@@ -1,0 +1,9 @@
+name: WORKFLOW dispatch demo
+on:
+  workflow_dispatch
+jobs:
+  say_hi:
+    runs-on: [ linux, PlatformAccelerator ]
+    steps:
+      - name: Hi
+        run: echo "Hi"
