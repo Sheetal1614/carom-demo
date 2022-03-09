@@ -1,5 +1,8 @@
 # Carom
 
+[![01. Checkout, Build And Push to jFrog on-prem and jFrog on-cloud](https://github.com/McK-Internal/MDE_ProposeToWin-carom/actions/workflows/01_build_and_push_docker_image.yml/badge.svg)](https://github.com/McK-Internal/MDE_ProposeToWin-carom/actions/workflows/01_build_and_push_docker_image.yml)
+[![02. Deploy on on-prem K8s integration](https://github.com/McK-Internal/MDE_ProposeToWin-carom/actions/workflows/02_deploy_on_onprem_k8s_integration.yml/badge.svg)](https://github.com/McK-Internal/MDE_ProposeToWin-carom/actions/workflows/02_deploy_on_onprem_k8s_integration.yml)
+
 # How to run the application via docker (standalone)
 1. To build and run web and db containers 
     
