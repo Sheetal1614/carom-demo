@@ -52,6 +52,7 @@ envSecrets:
     - key: OPPORTUNITY_MAILER_PASSWORD
     - key: CAROM_FENNEL_REFRESH_TOKEN
     - key: CAROM_HOLY_BASIL_REFRESH_TOKEN
+    - key: RAILS_MASTER_KEY
 
 ssl:
   redirect: true
