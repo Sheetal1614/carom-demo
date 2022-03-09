@@ -1,0 +1,7 @@
+[carom]
+carom
+
+[carom:vars]
+ansible_connection=local
+application_name=carom
+dnsrecord=schedulerqa
