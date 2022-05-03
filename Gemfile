@@ -30,7 +30,7 @@ gem 'bootstrap', '~> 4.4.1'
 gem 'jquery-rails'
 
 #For font awesome icons
-gem 'font-awesome-sass', '~> 5.15.1'
+gem 'font-awesome-sass', '~> 6.1.1'
 
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem "jbuilder"
@@ -72,7 +72,7 @@ gem "sassc-rails"
 #For date validations
 gem 'date_validator'
 
-gem 'ThymeFieldAccommodator', '~> 0.8.2'
+gem 'ThymeFieldAccommodator', '~> 0.8.3'
 # gem 'ThymeFieldAccommodator', path: "./LocalThymeFieldAccommodator"
 # gem 'faraday'
 
