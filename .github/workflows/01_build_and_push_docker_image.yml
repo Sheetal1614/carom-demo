@@ -1,7 +1,17 @@
-name: 01. Checkout, Build And Push to jFrog on-prem and jFrog on-cloud
+name: 01. Checkout, Build, Push(to jFrog on-prem and cloud) and Deploy
 on:
   # Manual trigger from the UI
   workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Specify git commit sha to build image from'
+      deployto:
+        type: choice
+        description: 'Deploy the built image on environment.'
+        options:
+          - None
+          - Integration
+          - Integration and Qa
 
   # On push to branch
   push:
@@ -16,9 +26,26 @@ concurrency:
 jobs:
   checkout_build_and_push_docker_image:
     runs-on: [ linux, PlatformAccelerator ]
+    outputs:
+      shortsha: ${{ steps.shortsha.outputs.shortsha }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.inputs.tag }}
+
+      - name: Generate git sha(short)
+        id: shortsha
+        run: echo "::set-output name=shortsha::sha-$(git rev-parse --short HEAD)"
+
+      - name: Print git sha(short)
+        run: echo "The git sha(short) is ${{ steps.shortsha.outputs.shortsha }}"
+
+      - name: Installing Buildx
+        uses: docker/setup-buildx-action@v1
+        id: buildx
+        with:
+          install: true
 
       - name: Docker meta
         id: meta
@@ -30,7 +57,7 @@ jobs:
           # generate Docker tags based on the following events/attributes
           tags: |
             type=raw,value=latest
-            type=sha
+            type=raw,value=${{steps.shortsha.outputs.shortsha}}
 
       - name: Login to on-prem jFrog artifactory
         uses: docker/login-action@v1
@@ -57,3 +84,29 @@ jobs:
           file: Dockerfile4GoCD
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+
+  call_deploy_int_workflow:
+    needs: checkout_build_and_push_docker_image
+    if: ${{ github.event_name == 'push' || github.event.inputs.deployto == 'Integration and Qa' || github.event.inputs.deployto == 'Integration' }}
+    uses: ./.github/workflows/02_deploy_on_onprem_k8s_integration.yml
+    with:
+      workflowsha: ${{needs.checkout_build_and_push_docker_image.outputs.shortsha}}
+      triggertype: ${{github.event_name}}
+    secrets:
+      ROLE_ID: ${{ secrets.ROLE_ID }}
+      SECRET_ID: ${{ secrets.SECRET_ID }}
+
+  call_deploy_qa_workflow:
+    needs: [checkout_build_and_push_docker_image, call_deploy_int_workflow]
+    if: ${{ github.event_name == 'push' || github.event.inputs.deployto == 'Integration and Qa' }}
+    uses: ./.github/workflows/03_deploy_on_onprem_k8s_qa.yml
+    with:
+      workflowsha: ${{needs.checkout_build_and_push_docker_image.outputs.shortsha}}
+      triggertype: ${{github.event_name}}
+    secrets:
+      ROLE_ID: ${{ secrets.ROLE_ID }}
+      SECRET_ID: ${{ secrets.SECRET_ID }}
+      ARTIFACTORY_USERNAME: ${{ secrets.ARTIFACTORY_USERNAME }}
+      ARTIFACTORY_PASSWORD: ${{ secrets.ARTIFACTORY_PASSWORD }}
+      JFROG_USERNAME_RW: ${{ secrets.JFROG_USERNAME_RW }}
+      JFROG_PASSWORD_RW: ${{ secrets.JFROG_PASSWORD_RW }}

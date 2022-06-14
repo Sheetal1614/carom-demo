@@ -6,11 +6,20 @@ on:
       tag:
         description: 'Docker image tag to deploy (ignore to use the latest git commit sha)'
 
-  # Dependency to a forking workflow
-  workflow_run:
-    workflows: [ "01. Checkout, Build And Push to jFrog on-prem and jFrog on-cloud" ]
-    types:
-      - completed
+  # Trigger from other workflow
+  workflow_call:
+    inputs:
+      workflowsha:
+        required: true
+        type: string
+      triggertype:
+        required: true
+        type: string
+    secrets:
+      ROLE_ID:
+        required: true
+      SECRET_ID:
+        required: true
 
 # Ensures that only one deploy task per branch/environment will run at a time.
 concurrency:
@@ -20,8 +29,9 @@ jobs:
   deploy_on_k8s_integration:
     runs-on: [ linux, on-prem ]
     environment: integration_with_proposetowin_namespace
-    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
+    if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
     steps:
+
       - name: Checkout
         uses: actions/checkout@master
 
@@ -29,12 +39,16 @@ jobs:
         id: shortsha
         run: echo "::set-output name=shortsha::sha-$(git rev-parse --short HEAD)"
 
+      - name: Evaluate image tag to deploy
+        id: imagetag_to_deploy
+        run: echo "::set-output name=imagetag_to_deploy::${{inputs.workflowsha || github.event.inputs.tag || steps.shortsha.outputs.shortsha}}"
+
       - name: Calling k8s-deployer:latest make helm-deploy
         env:
           NAMESPACE: k8sdevsf01-proposetowin-devsf
           ENV: devsf01
           SERVICENAME: carom
-          IMAGE_VERSION: ${{github.event.inputs.tag || steps.shortsha.outputs.shortsha}}
+          IMAGE_VERSION: ${{steps.imagetag_to_deploy.outputs.imagetag_to_deploy}}
           ROLE_ID: ${{ secrets.ROLE_ID }}
           SECRET_ID: ${{ secrets.SECRET_ID }}
         run: |

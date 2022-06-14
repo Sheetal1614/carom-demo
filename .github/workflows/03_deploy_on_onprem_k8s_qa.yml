@@ -8,33 +8,50 @@ on:
       tag_to_copy_and_deploy:
         description: 'Docker image tag to copy(from k8s-proposetowin-snapshots/carom) and deploy (ignore to use the latest git commit sha. Precedence 0)'
 
-  # Dependency to a forking workflow
-  workflow_run:
-    workflows: [ "02. Deploy on on-prem K8s integration" ]
-    types:
-      - completed
+  # Trigger from other workflow
+  workflow_call:
+    inputs:
+      workflowsha:
+        required: true
+        type: string
+      triggertype:
+        required: true
+        type: string
+    secrets:
+      ROLE_ID:
+        required: true
+      SECRET_ID:
+        required: true
+      ARTIFACTORY_USERNAME:
+        required: true
+      ARTIFACTORY_PASSWORD:
+        required: true
+      JFROG_USERNAME_RW:
+        required: true
+      JFROG_PASSWORD_RW:
+        required: true
 
 jobs:
   deploy_on_k8s_qa:
     runs-on: [ linux, on-prem ]
     environment: qa_with_proposetowin_namespace
-    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
+    if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
     steps:
       - name: Checkout
         uses: actions/checkout@master
 
       - name: Generate shortsha
         id: shortsha
-        if: ${{ github.event.inputs.tag_to_copy_and_deploy == '' && github.event.inputs.tag_to_deploy == '' }}
+        if: ${{ github.event.inputs.tag_to_copy_and_deploy == '' && github.event.inputs.tag_to_deploy == '' && inputs.workflowsha == ''}}
         run: echo "::set-output name=shortsha::sha-$(git rev-parse --short HEAD)"
 
       - name: Evaluate image tag to copy
         id: imagetag_to_copy
-        run: echo "::set-output name=imagetag_to_copy::${{github.event.inputs.tag_to_copy_and_deploy || steps.shortsha.outputs.shortsha}}"
+        run: echo "::set-output name=imagetag_to_copy::${{inputs.workflowsha || github.event.inputs.tag_to_copy_and_deploy || steps.shortsha.outputs.shortsha}}"
 
       - name: Evaluate image tag to deploy
         id: imagetag_to_deploy
-        run: echo "::set-output name=imagetag_to_deploy::${{github.event.inputs.tag_to_deploy || steps.imagetag_to_copy.outputs.imagetag_to_copy}}"
+        run: echo "::set-output name=imagetag_to_deploy::${{inputs.workflowsha || github.event.inputs.tag_to_deploy || steps.imagetag_to_copy.outputs.imagetag_to_copy}}"
 
       - name: Copying image from carom to carom-qa docker registery (artifacts.intranet.mckinsey.com)
         if: ${{ steps.imagetag_to_copy.outputs.imagetag_to_copy }}
@@ -44,7 +61,7 @@ jobs:
       - name: Copying image from integration/carom to qa/carom docker registery (mckinsey-elm-dope-docker.jfrog.io)
         if: ${{ steps.imagetag_to_copy.outputs.imagetag_to_copy }}
         run: |
-          docker run --rm artifacts.intranet.mckinsey.com/deployer-tools/jfrog-cli:1.34 jfrog rt cp elm-dope-docker-k8s/integration/carom/${{steps.imagetag_to_copy.outputs.imagetag_to_copy}}/ elm-dope-docker-k8s/qa/carom/${{steps.imagetag_to_copy.outputs.imagetag_to_copy}}/ --flat=true --user=${{ secrets.JFROG_USERNAME_RW }} --password=${{ secrets.JFROG_PASSWORD_RW }} --url="https://mckinsey-elm-dope-docker.jfrog.io/artifactory/"  
+          docker run --rm artifacts.intranet.mckinsey.com/deployer-tools/jfrog-cli:1.34 jfrog rt cp elm-dope-docker-k8s/integration/carom/${{steps.imagetag_to_copy.outputs.imagetag_to_copy}}/ elm-dope-docker-k8s/qa/carom/${{steps.imagetag_to_copy.outputs.imagetag_to_copy}}/ --flat=true --user=${{ secrets.JFROG_USERNAME_RW }} --password=${{ secrets.JFROG_PASSWORD_RW }} --url="https://mckinsey-elm-dope-docker.jfrog.io/artifactory/"
 
       - name: Calling k8s-deployer:latest make helm-deploy
         if: ${{ steps.imagetag_to_deploy.outputs.imagetag_to_deploy }}
