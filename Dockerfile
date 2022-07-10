@@ -33,6 +33,7 @@ COPY Gemfile* ./
 RUN bundle config set --global mckinsey.jfrog.io $JFROG_USERNAME:$JFROG_PASSWORD
 RUN bundle update --bundler
 RUN bundle install
+RUN bundle update
 
 RUN mkdir -p /app
 WORKDIR /app
