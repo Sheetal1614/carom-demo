@@ -22,7 +22,7 @@ module Carom
     # Set this to true and configure the email server for immediate delivery to raise delivery errors.
     config.action_mailer.raise_delivery_errors = true
     config.action_mailer.default_options = {
-        from: 'Scheduler <opportunity@mckinsey.com>',
+        from: 'Scheduler <proposal@mckinsey.com>',
         no_reply: 'Scheduler <no-reply@mckinsey.com>',
         charset: 'utf-8',
         mime_version: '1.0',
@@ -36,8 +36,8 @@ module Carom
         port: 587,
         authentication: :login,
         enable_starttls_auto: true,
-        user_name: ENV['OPPORTUNITY_MAILER_USERNAME'],
-        password: ENV['OPPORTUNITY_MAILER_PASSWORD']
+        user_name: ENV['PROPOSAL_MAILER_USERNAME'],
+        password: ENV['PROPOSAL_MAILER_PASSWORD']
     }
 
     config.notify_dev_team_at = ENV.fetch("notify_dev_team_at") {"dope_notifications-aaaaeywbsjgnkwuvbslxbaikvu@mckinsey.org.slack.com"}

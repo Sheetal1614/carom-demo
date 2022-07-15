@@ -1,7 +1,7 @@
 class ApplicationMailer < ActionMailer::Base
 
   # --------- Defaults -----------------------------------------------------
-  default from: 'Scheduler <opportunity@mckinsey.com>'
+  default from: 'Scheduler <proposal@mckinsey.com>'
 
   # --------- Layout -------------------------------------------------------
   layout 'mailer'
