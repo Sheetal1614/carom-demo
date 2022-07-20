@@ -50,6 +50,11 @@ module Carom
                               exception_recipients: [config.notify_dev_team_at]
                           }
 
+    # The released versions change the default YAML deserializer to use YAML.safe_load, which prevents deserialization of possibly dangerous objects. This may introduce backwards compatibility issues with existing data
+    # https://discuss.rubyonrails.org/t/cve-2022-32224-possible-rce-escalation-bug-with-serialized-columns-in-active-record/81017
+    # Todo: should be removed once rails by default add the mentioned classes in yaml_safe_load.
+    config.active_record.yaml_column_permitted_classes = [Symbol, Time, ActiveSupport::TimeWithZone, ActiveSupport::TimeZone, ActiveSupport::HashWithIndifferentAccess]
+
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files
