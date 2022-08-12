@@ -92,20 +92,6 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
-  config.holy_basil_connector = {
-      host: ENV.fetch("HOLY_BASIL_HOST"),
-      name: "CaromIntegration",
-      refresh_token: ENV.fetch("CAROM_HOLY_BASIL_REFRESH_TOKEN"),
-      access_token: 'some-access-token-which-will-be-populated-after-refresh'
-  }
-
-  config.fennel_connector = {
-      host: ENV.fetch("FENNEL_HOST"),
-      name: "CaromIntegration",
-      refresh_token: ENV.fetch("CAROM_FENNEL_REFRESH_TOKEN"),
-      access_token: 'some-access-token-which-will-be-populated-after-refresh'
-  }
-
   # To allow requests
   config.hosts << /(.+)\.intranet\.mckinsey.com\Z/
   config.hosts << "carom" #with host 'carom'

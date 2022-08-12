@@ -73,20 +73,6 @@ Rails.application.configure do
   # Uncomment if you wish to allow Action Cable access from any origin.
   # config.action_cable.disable_request_forgery_protection = true
 
-  config.holy_basil_connector = {
-      host: ENV.fetch("HOLY_BASIL_HOST"),
-      name: "CaromLocal",
-      refresh_token: ENV.fetch("CAROM_HOLY_BASIL_REFRESH_TOKEN"),
-      access_token: 'some-access-token-which-will-be-populated-after-refresh'
-  }
-
-  config.fennel_connector = {
-      host: ENV.fetch("FENNEL_HOST"),
-      name: "Carom Local",
-      refresh_token: ENV.fetch("CAROM_FENNEL_REFRESH_TOKEN"),
-      access_token: 'some-access-token-which-will-be-populated-after-refresh'
-  }
-
   # To allow requests to carom with host 'carom'
   config.hosts << "carom"
 

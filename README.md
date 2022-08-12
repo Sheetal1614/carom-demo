@@ -28,15 +28,22 @@
     
     ```docker-compose exec web rails console```
 
-6. To execute rails dbconsole 
+7. To execute rails dbconsole 
     
     ```docker-compose exec web rails dbconsole```
 
-7. To get shell access on web 
+8. To get shell access on web 
     
     ```docker-compose exec web sh```
 
-8. To access db's mysql over host 
+9. To access db's mysql over host 
     
     ```mysql -u root -proot -h 127.0.0.1 -P 3307```
-    
+
+10. To access rails credentials for develop environment
+
+    ```cp config/credentials.yml.enc.template config/credentials.yml.enc```
+
+    To update credential file ```credentials.yml.enc``` run below command inside container bash and add valid token, key and value and save it
+
+    ```EDITOR=vim rails credentials:edit```
