@@ -30,7 +30,7 @@ module Carom
     }
 
     config.action_mailer.delivery_method = :smtp
-    config.smtp_settings = Rails.application.credentials.config.dig(:smtp_settings)
+    config.action_mailer.smtp_settings = Rails.application.credentials.config.dig(:smtp_settings)
     config.holy_basil_connector = Rails.application.credentials.config.dig(:holy_basil_connector)
     config.fennel_connector = Rails.application.credentials.config.dig(:fennel_connector)
 
