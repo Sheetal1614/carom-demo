@@ -69,6 +69,7 @@ services:
       RAILS_MAX_THREADS: 5
       CACHE_HOST: memcache
       notify_dev_team_at: "dope_notifications-aaaaeywbsjgnkwuvbslxbaikvu@mckinsey.org.slack.com"
+      RAILS_MASTER_KEY: <Get from Team>
     volumes:
       - ".:/app"
 
