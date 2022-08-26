@@ -30,15 +30,9 @@ module Carom
     }
 
     config.action_mailer.delivery_method = :smtp
-    config.action_mailer.smtp_settings = {
-        address: 'smtp.mckinsey.com',
-        domain: 'smtp.mckinsey.com',
-        port: 587,
-        authentication: :login,
-        enable_starttls_auto: true,
-        user_name: ENV['PROPOSAL_MAILER_USERNAME'],
-        password: ENV['PROPOSAL_MAILER_PASSWORD']
-    }
+    config.action_mailer.smtp_settings = Rails.application.credentials.config.dig(:smtp_settings)
+    config.holy_basil_connector = Rails.application.credentials.config.dig(:holy_basil_connector)
+    config.fennel_connector = Rails.application.credentials.config.dig(:fennel_connector)
 
     config.notify_dev_team_at = ENV.fetch("notify_dev_team_at") {"dope_notifications-aaaaeywbsjgnkwuvbslxbaikvu@mckinsey.org.slack.com"}
 

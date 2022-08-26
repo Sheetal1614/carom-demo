@@ -61,14 +61,11 @@ services:
       CAROM_DATABASE_NAME: secret
       CAROM_DATABASE_PORT: 3306
       CAROM_DATABASE_HOST: db
-      HOLY_BASIL_HOST: http://holy-basil:3000
-      CAROM_HOLY_BASIL_REFRESH_TOKEN: secret
-      FENNEL_HOST: http://fennel:3000
-      CAROM_FENNEL_REFRESH_TOKEN: secret
       RAILS_ENV: development
       RAILS_MAX_THREADS: 5
       CACHE_HOST: memcache
       notify_dev_team_at: "dope_notifications-aaaaeywbsjgnkwuvbslxbaikvu@mckinsey.org.slack.com"
+      RAILS_MASTER_KEY: <Get from Team>
     volumes:
       - ".:/app"
 

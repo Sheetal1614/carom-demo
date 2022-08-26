@@ -38,8 +38,6 @@ envVariables:
   RAILS_MAX_THREADS: 10
   WEB_CONCURRENCY: 6
   CACHE_HOST: memcache.k8sdevsf01-proposetowin-devsf
-  HOLY_BASIL_HOST: https://eaiint.intranet.mckinsey.com
-  FENNEL_HOST: https://authenticatorint.intranet.mckinsey.com
   notify_dev_team_at: dope_notifications-aaaaeywbsjgnkwuvbslxbaikvu@mckinsey.org.slack.com
 
 envSecrets:
@@ -48,10 +46,6 @@ envSecrets:
     - key: CAROM_DATABASE_NAME
     - key: CAROM_DATABASE_USERNAME
     - key: CAROM_DATABASE_PASSWORD
-    - key: PROPOSAL_MAILER_USERNAME
-    - key: PROPOSAL_MAILER_PASSWORD
-    - key: CAROM_FENNEL_REFRESH_TOKEN
-    - key: CAROM_HOLY_BASIL_REFRESH_TOKEN
     - key: RAILS_MASTER_KEY
 
 ssl:

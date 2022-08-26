@@ -6,7 +6,7 @@ USER root
 
 # Installing required libraries
 RUN apt-get update -qq
-RUN apt-get install -y build-essential curl git nodejs libmariadb-dev figlet
+RUN apt-get install -y build-essential curl git nodejs libmariadb-dev figlet vim
 
 ENV SUPERCRONIC_URL=https://github.com/aptible/supercronic/releases/download/v0.1.12/supercronic-linux-amd64 \
     SUPERCRONIC=supercronic-linux-amd64 \
