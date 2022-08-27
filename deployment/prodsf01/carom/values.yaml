@@ -37,7 +37,7 @@ envVariables:
   RAILS_SERVE_STATIC_FILES: true
   RAILS_MAX_THREADS: 10
   WEB_CONCURRENCY: 6
-  CACHE_HOST: memcache.k8sprodsf01-proposetowin-prodsf
+  CACHE_URL: redis://redis.k8sprodsf01-proposetowin-prodsf
   notify_dev_team_at: dope_prod_notificatio-aaaae2mu5xcxgfpiv5dy6quryy@mckinsey.org.slack.com
 
 envSecrets:

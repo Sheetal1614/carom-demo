@@ -37,6 +37,8 @@ gem "jbuilder"
 
 # Use Redis adapter to run Action Cable in production
 # gem "redis", "~> 4.0"
+gem 'redis'
+gem 'hiredis'
 
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"
@@ -81,9 +83,6 @@ gem "select2-rails"
 
 # For converting cron expressions into human readable strings
 gem 'cronex'
-
-# Use Dalli for memcache connect
-gem 'dalli'
 
 # Use for multi-threading in Dalli connection
 gem 'connection_pool'

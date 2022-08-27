@@ -24,7 +24,7 @@ Rails.application.configure do
     config.action_controller.enable_fragment_cache_logging = true
 
     # config.cache_store = :memory_store
-    config.cache_store = :mem_cache_store, ENV.fetch("CACHE_HOST") {"memcache"}, {namespace: 'carom', expires_in: 1.day, compress: true, :pool_size => 5}
+    config.cache_store = :redis_cache_store, {url: ENV.fetch("CACHE_URL") {"redis://redis"}, password: ENV.fetch('REDIS_PASSWORD') {Rails.application.credentials.config.dig(:redis_password)}, port: 6379, namespace: 'carom', expires_in: 1.day, compress: true, pool_size: 5}
 
     config.public_file_server.headers = {
       "Cache-Control" => "public, max-age=#{2.days.to_i}"

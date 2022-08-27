@@ -12,15 +12,15 @@ services:
     ports:
       - "3307:3306"
 
-  memcache:
-    image: "artifacts.intranet.mckinsey.com/gold-images/memcached:1.5"
+  redis:
+    image: "artifacts.intranet.mckinsey.com/gold-images/redis:6.0"
     user: "1001"
-    command: [ "memcached", "-m", "1024m" ]
+    command: ["redis-server", "--maxmemory 1024m", "--requirepass ReD1Sp455w0rD"]
 
   holy-basil:
     depends_on:
       - "db"
-      - "memcache"
+      - "redis"
     build:
       context: ../MDE_ProposeToWin-holy_basil/.
       args:
@@ -39,14 +39,14 @@ services:
       API_PORTAL_CLIENT_SECRET: secret
       RAILS_ENV: development
       RAILS_MAX_THREADS: 20
-      CACHE_HOST: memcache
+      CACHE_URL: 'redis://redis'
     volumes:
       - "../MDE_ProposeToWin-holy_basil/.:/app"
 
   carom:
     depends_on:
       - "db"
-      - "memcache"
+      - "redis"
       - "holy-basil"
     build:
       context: .
@@ -63,7 +63,7 @@ services:
       CAROM_DATABASE_HOST: db
       RAILS_ENV: development
       RAILS_MAX_THREADS: 5
-      CACHE_HOST: memcache
+      CACHE_URL: 'redis://redis'
       notify_dev_team_at: "dope_notifications-aaaaeywbsjgnkwuvbslxbaikvu@mckinsey.org.slack.com"
       RAILS_MASTER_KEY: <Get from Team>
     volumes:

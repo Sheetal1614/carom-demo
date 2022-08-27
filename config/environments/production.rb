@@ -57,7 +57,7 @@ Rails.application.configure do
 
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store
-  config.cache_store = :mem_cache_store, ENV.fetch("CACHE_HOST") {"memcache.k8s-proposetowin"}, {namespace: 'carom', expires_in: 1.day, compress: true, :pool_size => 5}
+  config.cache_store = :redis_cache_store, {url: ENV.fetch("CACHE_URL") {"redis://redis.k8sprodsf01-proposetowin-prodsf"}, password: ENV.fetch('REDIS_PASSWORD') {Rails.application.credentials.config.dig(:redis_password)}, port: 6379, namespace: 'carom', expires_in: 1.day, compress: true, pool_size: 5}
 
   # Use a real queuing backend for Active Job (and separate queues per environment).
   # config.active_job.queue_adapter     = :resque

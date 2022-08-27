@@ -9,6 +9,7 @@
 #  -e CAROM_DATABASE_PASSWORD=get_it_from_your_team \
 #  -e CAROM_DATABASE_HOST=get_it_from_your_team \
 #  -e CAROM_DATABASE_PORT=3311 \
+#  -e CACHE_URL=get_it_from_your_team \
 #  -e RAILS_LOG_TO_STDOUT=true \
 #  -e RAILS_SERVE_STATIC_FILES=true \
 #  standalone_carom
