@@ -129,6 +129,19 @@ class UnderGroundsController < ApplicationController
     end
   end
 
+  def statistics
+    return if request.get?
+
+    flash.now[:notice] = if params[:action_2_perform] == 'flush_and_reap_idle_connections'
+                           ActiveRecord::Base.connection_pool.flush
+                           ActiveRecord::Base.connection_pool.reap
+
+                           "Idle database connections flushed and reaped."
+                         else
+                           'Invalid action to perform.'
+                         end
+  end
+
   private
 
   def team_params
