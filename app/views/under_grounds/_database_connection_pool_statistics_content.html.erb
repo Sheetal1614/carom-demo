@@ -1,0 +1,38 @@
+<div class="row mb-5" id="db_connection_pool_statistics_content">
+  <div class="col">
+    <h5>Database connection pool statistics</h5>
+
+    <div class="card border-info">
+      <div class="card-body">
+        <div class="card-text">
+          <h5><%= ActiveRecord::Base.connection_db_config.configuration_hash.dig(:host) %></h5>
+          <table class="table table-sm table-striped ">
+            <thead class="thead-dark">
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Attribute name</th>
+              <th scope="col">Attribute value</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            <% ActiveRecord::Base.connection_pool.stat.each_with_index do |attribute, index| %>
+              <tr>
+                <th scope="row"><%= (index + 1).to_s.rjust(3, '0') %></th>
+                <td><%= attribute[0] %></td>
+                <td><%= attribute[1] %></td>
+              </tr>
+            <% end %>
+            </tbody>
+          </table>
+
+          <%= button_to "Flush & Reap idle connections", statistics_under_grounds_path(action_2_perform: 'flush_and_reap_idle_connections'),
+                        remote: true, data: {confirm: 'Are you sure?'}, class: "btn btn-sm btn-outline-primary" %>
+
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
