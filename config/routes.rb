@@ -48,10 +48,12 @@ Rails.application.routes.draw do
       get :teams
       get :application_admins
       get :miscellaneous
+      get :statistics
 
       post :teams
       post :application_admins
       post :miscellaneous
+      post :statistics
 
       delete :application_admins
     end
