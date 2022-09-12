@@ -36,8 +36,7 @@ gem 'font-awesome-sass', '~> 6.1.1'
 gem "jbuilder"
 
 # Use Redis adapter to run Action Cable in production
-# gem "redis", "~> 4.0"
-gem 'redis'
+gem "redis", "~> 4.8"
 gem 'hiredis'
 
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
