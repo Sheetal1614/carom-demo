@@ -42,8 +42,9 @@
 
 10. To access rails credentials for develop environment
 
-    ```cp config/credentials.yml.enc.template config/credentials.yml.enc```
+    ```rails credentials:show```
 
-    To update credential file ```credentials.yml.enc``` run below command inside container bash and add valid token, key and value and save it
+    To update credential file ```credentials.yml.enc```  run below command inside container bash and add valid tokens,
+    keys and values and save it.
 
     ```EDITOR=vim rails credentials:edit```
