@@ -52,4 +52,4 @@ jobs:
           ROLE_ID: ${{ secrets.ROLE_ID }}
           SECRET_ID: ${{ secrets.SECRET_ID }}
         run: |
-          docker run -i --rm -v `pwd`/deployment:/workdir/app -e ENV -e NAMESPACE -e SERVICENAME -e ROLE_ID -e SECRET_ID -e IMAGE_VERSION artifacts.intranet.mckinsey.com/deployer-tools/k8s-deployer:latest make deploy-all
+          docker run -i --rm -v `pwd`/deployment:/workdir/app -e ENV -e NAMESPACE -e SERVICENAME -e ROLE_ID -e SECRET_ID -e IMAGE_VERSION artifacts.intranet.mckinsey.com/deployer-tools/k8s-deployer:latest make helm-deploy
