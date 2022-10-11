@@ -2,6 +2,8 @@ class EnumerationsController < ApplicationController
 
   def people
     @options_set = []
+
+    return if params[:term].blank?
     response, response_code = HolyBasilNegotiator.firm_members_by_name(params[:term])
 
     if response_code == 200
