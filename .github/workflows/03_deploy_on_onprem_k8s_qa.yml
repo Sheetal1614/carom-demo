@@ -43,15 +43,15 @@ jobs:
       - name: Generate shortsha
         id: shortsha
         if: ${{ github.event.inputs.tag_to_copy_and_deploy == '' && github.event.inputs.tag_to_deploy == '' && inputs.workflowsha == ''}}
-        run: echo "::set-output name=shortsha::sha-$(git rev-parse --short HEAD)"
+        run: echo "shortsha=sha-$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
 
       - name: Evaluate image tag to copy
         id: imagetag_to_copy
-        run: echo "::set-output name=imagetag_to_copy::${{inputs.workflowsha || github.event.inputs.tag_to_copy_and_deploy || steps.shortsha.outputs.shortsha}}"
+        run: echo "imagetag_to_copy=${{inputs.workflowsha || github.event.inputs.tag_to_copy_and_deploy || steps.shortsha.outputs.shortsha}}" >> $GITHUB_OUTPUT
 
       - name: Evaluate image tag to deploy
         id: imagetag_to_deploy
-        run: echo "::set-output name=imagetag_to_deploy::${{inputs.workflowsha || github.event.inputs.tag_to_deploy || steps.imagetag_to_copy.outputs.imagetag_to_copy}}"
+        run: echo "imagetag_to_deploy=${{inputs.workflowsha || github.event.inputs.tag_to_deploy || steps.imagetag_to_copy.outputs.imagetag_to_copy}}" >> $GITHUB_OUTPUT
 
       - name: Copying image from carom to carom-qa docker registery (artifacts.intranet.mckinsey.com)
         if: ${{ steps.imagetag_to_copy.outputs.imagetag_to_copy }}

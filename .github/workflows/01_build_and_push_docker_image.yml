@@ -36,7 +36,7 @@ jobs:
 
       - name: Generate git sha(short)
         id: shortsha
-        run: echo "::set-output name=shortsha::sha-$(git rev-parse --short HEAD)"
+        run: echo "shortsha=sha-$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
 
       - name: Print git sha(short)
         run: echo "The git sha(short) is ${{ steps.shortsha.outputs.shortsha }}"
