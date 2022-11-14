@@ -9,13 +9,7 @@
 # And be sure to use new-style password hashing:
 #   https://dev.mysql.com/doc/refman/5.7/en/password-hashing.html
 #
-# Reference: https://bigbinary.com/learn-rubyonrails-book/configure-and-connect-to-database
-#  pool - Maximum number of connections to database per application.
-#  Defaults to 5.
-#  e.g. 2 * 16 (puma) + 1 * 10 (sidekiq) = 42
-#  here, 2 - puma processes, each process has 16 threads
-#        1 - sidekiq process, each process has 10 threads
-#  And have added 5 extra
+# Referencing from https://maxencemalbois.medium.com/the-ruby-on-rails-database-connections-pool-4ce1099a9e9f
 #
 default: &default
   adapter: mysql2
@@ -26,7 +20,7 @@ default: &default
   password: <%= ENV.fetch("CAROM_DATABASE_PASSWORD") %>
   host: <%= ENV.fetch("CAROM_DATABASE_HOST") %>
   port: <%= ENV.fetch("CAROM_DATABASE_PORT") %>
-  pool: <%= ((ENV.fetch("WEB_CONCURRENCY") { 6 }.to_i * ENV.fetch("RAILS_MAX_THREADS") { 10 }.to_i) + (1 * 0) + 5) %> # 0 workers threads from backburner (maximum number of connections the pool may manage (default 5)).
+  pool: <%= (ENV.fetch("RAILS_MAX_THREADS") { 10 }.to_i + (1 * 0) + 5) %> # 0 workers threads from backburner + 5 miscellaneous (maximum number of connections the pool may manage (default 5)).
   checkout_timeout: 30 #seconds (number of seconds to wait for a connection to become available before giving up and raising a timeout error (default 5 seconds).)
   idle_timeout: 20 #seconds (number of seconds that a connection will be kept unused in the pool before it is automatically disconnected (default 300 seconds).)
   reaping_frequency: 30 #seconds (frequency in seconds to periodically run the Reaper, which attempts to find and recover connections from dead threads, which can occur if a programmer forgets to close a connection at the end of a thread or a thread dies unexpectedly. Regardless of this setting, the Reaper will be invoked before every blocking wait. (Default nil, which means don't schedule the Reaper).)
