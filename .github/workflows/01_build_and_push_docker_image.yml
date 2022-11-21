@@ -16,7 +16,7 @@ on:
   # On push to branch
   push:
     branches:
-      - master
+      - master-tag_history
 
 # Ensures that only one deploy task per branch/environment will run at a time.
 concurrency:
@@ -40,6 +40,12 @@ jobs:
 
       - name: Print git sha(short)
         run: echo "The git sha(short) is ${{ steps.shortsha.outputs.shortsha }}"
+
+      - name: Run script file
+        run: |
+          chmod +x ./.github/scripts/build.sh
+          ./.github/scripts/build.sh
+        shell: bash
 
       - name: Installing Buildx
         uses: docker/setup-buildx-action@v1
